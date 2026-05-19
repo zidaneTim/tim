@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outils pédagogiques — Cours TIM · Xavier Grall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --vert: #2D6A4F;
+      --vert-clair: #52B788;
+      --vert-pale: #D8F3DC;
+      --terre: #B7472A;
+      --creme: #F8F5F0;
+      --noir: #1A1A1A;
+      --gris: #6B7280;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      background: var(--creme);
+      color: var(--noir);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--vert);
+      height: 64px;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-link {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px 6px 8px;
+      border-radius: 8px;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .back-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    .header-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: #fff;
+      color: var(--vert);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--noir) 0%, #2c2c2c 100%);
+      color: #fff;
+      padding: 56px 24px 48px;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--vert-clair);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 24px 64px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--noir);
+      margin-bottom: 24px;
+    }
+
+    /* ── OUTILS GRID ── */
+    .outils-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .outil-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(45,106,79,0.10);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .outil-icon {
+      font-size: 2.25rem;
+      line-height: 1;
+    }
+
+    .outil-header { display: flex; flex-direction: column; gap: 6px; }
+
+    .outil-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--noir);
+    }
+
+    .outil-desc {
+      font-size: 0.9rem;
+      color: var(--gris);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .outil-classes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .class-tag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--vert-pale);
+      color: var(--vert);
+    }
+
+    .class-tag.all {
+      background: #EEF2FF;
+      color: #4338CA;
+    }
+
+    .btn-outil {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--vert);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.15s;
+      margin-top: auto;
+    }
+
+    .btn-outil:hover { background: #245A41; }
+
+    .btn-outil.disabled {
+      background: #E5E7EB;
+      color: var(--gris);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .coming-soon {
+      font-size: 11px;
+      color: var(--gris);
+      font-style: italic;
+      margin-top: -8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--noir);
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      text-align: center;
+      padding: 20px 24px;
+    }
+
+    @media (max-width: 640px) {
+      .outils-grid { grid-template-columns: 1fr; }
+      main { padding: 40px 20px 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Accueil</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Ressources pédagogiques</p>
+      <h1>🛠 Outils disponibles</h1>
+      <p>Catalogue de tous les outils interactifs utilisés en classe. Clique sur un outil pour l'ouvrir.</p>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main>
+    <p class="section-title">Tous les outils</p>
+
+    <div class="outils-grid">
+
+      <!-- Outil 1 : Pix-parcours -->
+      <!-- TODO: remplacer href="#" par pix-parcours.html quand le fichier sera créé -->
+      <div class="outil-card">
+        <div class="outil-icon">🎯</div>
+        <div class="outil-header">
+          <p class="outil-name">Parcours Pix CRCN</p>
+        </div>
+        <p class="outil-desc">Accès aux parcours Pix personnalisés pour valider les compétences numériques du référentiel CRCN.</p>
+        <div class="outil-classes">
+          <span class="class-tag all">Toutes classes</span>
+        </div>
+        <a href="#" class="btn-outil disabled">À venir</a>
+        <p class="coming-soon">Fichier pix-parcours.html — à venir</p>
+      </div>
+
+      <!-- Outil 2 : e6-feedback -->
+      <!-- TODO: remplacer href="#" par e6-feedback.html quand le fichier sera créé -->
+      <div class="outil-card">
+        <div class="outil-icon">🤖</div>
+        <div class="outil-header">
+          <p class="outil-name">Feedback E6 IA</p>
+        </div>
+        <p class="outil-desc">Outil de feedback assisté par IA pour préparer l'épreuve E6 du Bac Pro.</p>
+        <div class="outil-classes">
+          <span class="class-tag">Terminale</span>
+        </div>
+        <a href="#" class="btn-outil disabled">À venir</a>
+        <p class="coming-soon">Fichier e6-feedback.html — à venir</p>
+      </div>
+
+      <!-- Outil 3 : CapaJeu -->
+      <!-- TODO: remplacer href="#" par capajeu.html quand le fichier sera créé -->
+      <div class="outil-card">
+        <div class="outil-icon">🎲</div>
+        <div class="outil-header">
+          <p class="outil-name">CapaJeu</p>
+        </div>
+        <p class="outil-desc">Jeu pédagogique interactif à destination des enseignants pour dynamiser les séquences de cours.</p>
+        <div class="outil-classes">
+          <span class="class-tag" style="background:#FEF3C7;color:#92400E;">Enseignants</span>
+        </div>
+        <a href="#" class="btn-outil disabled">À venir</a>
+        <p class="coming-soon">Fichier capajeu.html — à venir</p>
+      </div>
+
+      <!-- Outil 4 : Fractions -->
+      <!-- TODO: remplacer href="#" par fractions.html quand le fichier sera créé -->
+      <div class="outil-card">
+        <div class="outil-icon">➗</div>
+        <div class="outil-header">
+          <p class="outil-name">Simulateur Fractions</p>
+        </div>
+        <p class="outil-desc">Outil interactif de manipulation des fractions pour consolider les bases mathématiques.</p>
+        <div class="outil-classes">
+          <span class="class-tag">4ème</span>
+          <span class="class-tag">CAPa 1</span>
+        </div>
+        <a href="#" class="btn-outil disabled">À venir</a>
+        <p class="coming-soon">Fichier fractions.html — à venir</p>
+      </div>
+
+      <!-- Outil 5 : Grille MP8 -->
+      <!-- TODO: remplacer href="#" par grille-mp8.html quand le fichier sera créé -->
+      <div class="outil-card">
+        <div class="outil-icon">📋</div>
+        <div class="outil-header">
+          <p class="outil-name">Grille MP8</p>
+        </div>
+        <p class="outil-desc">Grille d'évaluation du Module Professionnel 8, avec indicateurs et niveaux de maîtrise.</p>
+        <div class="outil-classes">
+          <span class="class-tag">CAPa 2</span>
+          <span class="class-tag">Terminale</span>
+        </div>
+        <a href="#" class="btn-outil disabled">À venir</a>
+        <p class="coming-soon">Fichier grille-mp8.html — à venir</p>
+      </div>
+
+      <!-- Outil 6 : Coopération -->
+      <!-- TODO: remplacer href="#" par cooperation.html quand le fichier sera créé -->
+      <div class="outil-card">
+        <div class="outil-icon">🤝</div>
+        <div class="outil-header">
+          <p class="outil-name">Suivi Coopération</p>
+        </div>
+        <p class="outil-desc">Tableau de suivi des activités coopératives et de travail en groupe pour évaluer les compétences sociales.</p>
+        <div class="outil-classes">
+          <span class="class-tag">Première</span>
+          <span class="class-tag">CAPa 2</span>
+        </div>
+        <a href="#" class="btn-outil disabled">À venir</a>
+        <p class="coming-soon">Fichier cooperation.html — à venir</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026
+  </footer>
+
+</body>
+</html>
