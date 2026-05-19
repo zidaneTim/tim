@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "PowerShell(cmd /c \"dir /a /s C:\\\\Users\\\\Driss\\\\Documents\\\\GitHub\\\\tim\")"
     ]
   }
 }
