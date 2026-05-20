@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CapaJeu — Formateurs · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #6D28D9 0%, #1D3557 100%); }
+    .game-card { background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(45,106,79,.1); padding:32px; }
+    .question-text { font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; margin-bottom:24px; line-height:1.45; }
+    .options-grid { display:flex; flex-direction:column; gap:10px; }
+    .option-btn {
+      padding:14px 20px; border-radius:12px; border:2px solid #E5E7EB; background:#fff;
+      text-align:left; font-size:14px; font-weight:500; cursor:pointer;
+      font-family:'DM Sans',sans-serif; transition:all 0.15s; line-height:1.4;
+    }
+    .option-btn:hover { border-color:var(--vert); background:var(--vert-pale); }
+    .option-btn.correct { border-color:#22C55E; background:#F0FDF4; color:#15803D; }
+    .option-btn.wrong { border-color:var(--terre); background:#FEF2F2; color:var(--terre); }
+    .option-btn.disabled { pointer-events:none; }
+    .progress-bar { height:8px; background:#F1F5F9; border-radius:999px; overflow:hidden; margin-bottom:24px; }
+    .progress-fill { height:100%; background:var(--vert); border-radius:999px; transition:width 0.4s; }
+    .score-badge { display:inline-flex; align-items:center; gap:8px; background:var(--vert-pale); color:var(--vert); padding:8px 16px; border-radius:999px; font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; }
+    .feedback-box { background:#F0FDF4; border-radius:12px; padding:16px; margin-top:16px; font-size:0.875rem; color:#15803D; line-height:1.55; display:none; }
+    .feedback-box.wrong { background:#FEF2F2; color:var(--terre); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="back-link">← Formateurs</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil IEA · Formateurs</p>
+      <h1>🎲 CapaJeu</h1>
+      <p>Jeu d'auto-positionnement sur l'approche capacitaire et le référentiel IEA.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">IEA</span>
+        <span class="hero-chip">Approche capacitaire</span>
+        <span class="hero-chip">10 questions</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:680px;">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <span id="question-counter" class="score-badge">Question 1 / 10</span>
+        <span id="score-display" class="score-badge" style="background:#EEF2FF;color:#4338CA;">Score : 0 / 0</span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%;"></div>
+      </div>
+
+      <div class="game-card" id="game-card">
+        <!-- Rempli par JS -->
+      </div>
+
+      <div style="margin-top:20px;text-align:center;">
+        <button id="btn-next" class="btn btn-primary" style="display:none;">Question suivante →</button>
+        <button id="btn-restart" class="btn btn-secondary" style="display:none;">↺ Recommencer</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script>
+    /* TODO: remplacer par les vraies questions IEA/capacitaire */
+    const questions = [
+      {
+        q: "Dans l'approche capacitaire, une capacité se définit comme :",
+        opts: ["Un savoir théorique acquis en cours", "Un pouvoir d'agir mobilisable dans des situations variées", "Une note obtenue lors d'une évaluation", "Un objectif pédagogique du formateur"],
+        correct: 1,
+        feedback: "Une capacité est un pouvoir d'agir : c'est la capacité à mobiliser des ressources (savoirs, savoir-faire, attitudes) pour répondre à une situation."
+      },
+      {
+        q: "L'auto-positionnement capacitaire sert principalement à :",
+        opts: ["Noter les apprenants sur leurs compétences", "Permettre à l'apprenant de prendre conscience de ses ressources et de ses besoins", "Remplacer l'évaluation formative classique", "Classer les apprenants par niveau"],
+        correct: 1,
+        feedback: "L'auto-positionnement vise à développer la métacognition : l'apprenant réfléchit sur ce qu'il sait faire, ce qu'il doit développer."
+      },
+      {
+        q: "Dans le référentiel IEA, que signifie l'acronyme ?",
+        opts: ["Institut d'Éducation Agricole", "Ingénierie d'Évaluation des Apprentissages", "Initiative pour l'Enseignement Agricole", "Intégration des Élèves Agricoles"],
+        correct: 0,
+        feedback: "IEA = Institut d'Éducation Agricole. Ce réseau accompagne les établissements dans l'innovation pédagogique."
+      },
+      {
+        q: "La méthode ACTIF en pédagogie signifie :",
+        opts: ["Actif, Collaboratif, Transversal, Innovant, Formatif", "Apprenant, Contenu, Temps, Interaction, Feedback", "Application, Création, Test, Intégration, Formation", "Aucune de ces réponses"],
+        correct: 0,
+        feedback: "ACTIF : Actif (l'élève fait), Collaboratif (avec les autres), Transversal (lien entre matières), Innovant (outils et méthodes), Formatif (évaluation au service de l'apprentissage)."
+      },
+      {
+        q: "Dans une séquence capacitaire, la situation-problème doit être :",
+        opts: ["Abstraite et théorique pour stimuler la réflexion", "Ancrée dans un contexte professionnel réel et signifiant", "Simple pour ne pas décourager les apprenants", "Choisie uniquement par le formateur"],
+        correct: 1,
+        feedback: "La situation-problème doit être authentique et significative pour l'apprenant, en lien avec son univers professionnel ou de vie."
+      },
+      {
+        q: "L'évaluation dans l'approche capacitaire est principalement :",
+        opts: ["Sommative et certificative", "Formative, régulière et au service de l'apprenant", "Basée sur des tests standardisés", "Réalisée uniquement en fin d'année"],
+        correct: 1,
+        feedback: "L'évaluation capacitaire est avant tout formative : elle aide l'apprenant à progresser et le formateur à ajuster sa pédagogie."
+      },
+      {
+        q: "Quelle posture le formateur adopte-t-il dans l'approche capacitaire ?",
+        opts: ["Expert qui transmet le savoir", "Évaluateur qui juge les performances", "Accompagnateur qui facilite les apprentissages", "Directeur qui organise le planning"],
+        correct: 2,
+        feedback: "Le formateur devient un accompagnateur, un facilitateur. Il crée les conditions favorables à l'apprentissage plutôt que de simplement transmettre."
+      },
+      {
+        q: "Le portfolio de compétences d'un apprenant sert à :",
+        opts: ["Remplacer le bulletin scolaire", "Collecter des preuves de ses apprentissages et de sa progression", "Évaluer les formateurs", "Planifier les séquences de cours"],
+        correct: 1,
+        feedback: "Le portfolio est un outil de collecte de traces : l'apprenant y rassemble des preuves de ses apprentissages pour rendre visible sa progression."
+      },
+      {
+        q: "Dans le cadre du lycée agricole, les PFMP permettent de :",
+        opts: ["Évaluer uniquement les savoirs théoriques", "Confronter les capacités à des situations professionnelles réelles", "Remplacer les cours en classe", "Recruter des élèves"],
+        correct: 1,
+        feedback: "Les Périodes de Formation en Milieu Professionnel sont des moments clés pour mobiliser et développer des capacités dans des contextes authentiques."
+      },
+      {
+        q: "Un indicateur dans une grille d'évaluation capacitaire doit être :",
+        opts: ["Le plus vague possible pour laisser de la flexibilité", "Observable, précis et décrivant un comportement attendu", "Identique pour toutes les classes", "Rédigé uniquement par l'inspection"],
+        correct: 1,
+        feedback: "Un bon indicateur est observable (on peut le voir ou l'entendre), précis (sans ambiguïté) et ancré dans une situation concrète."
+      },
+    ];
+
+    let current = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      const q = questions[current];
+      const card = document.getElementById('game-card');
+      answered = false;
+
+      document.getElementById('question-counter').textContent = `Question ${current + 1} / ${questions.length}`;
+      document.getElementById('progress-fill').style.width = `${(current / questions.length) * 100}%`;
+      document.getElementById('btn-next').style.display = 'none';
+
+      card.innerHTML = `
+        <p class="question-text">${q.q}</p>
+        <div class="options-grid">
+          ${q.opts.map((o, i) => `<button class="option-btn" data-index="${i}">${o}</button>`).join('')}
+        </div>
+        <div class="feedback-box" id="feedback"></div>`;
+
+      card.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (answered) return;
+          answered = true;
+          const chosen = parseInt(btn.dataset.index);
+          const fb = document.getElementById('feedback');
+
+          card.querySelectorAll('.option-btn').forEach(b => b.classList.add('disabled'));
+
+          if (chosen === q.correct) {
+            btn.classList.add('correct');
+            score++;
+            fb.textContent = '✅ Correct ! ' + q.feedback;
+            fb.className = 'feedback-box';
+          } else {
+            btn.classList.add('wrong');
+            card.querySelectorAll('.option-btn')[q.correct].classList.add('correct');
+            fb.textContent = '❌ Pas tout à fait. ' + q.feedback;
+            fb.className = 'feedback-box wrong';
+          }
+          fb.style.display = 'block';
+
+          document.getElementById('score-display').textContent = `Score : ${score} / ${current + 1}`;
+          document.getElementById('btn-next').style.display = current < questions.length - 1 ? 'inline-flex' : 'none';
+
+          if (current === questions.length - 1) {
+            setTimeout(() => showResults(), 400);
+          }
+        });
+      });
+    }
+
+    function showResults() {
+      const card = document.getElementById('game-card');
+      const pct = Math.round((score / questions.length) * 100);
+      const msg = pct >= 80 ? '🎉 Excellent !' : pct >= 60 ? '👍 Bien joué !' : '📚 À retravailler…';
+      card.innerHTML = `
+        <div style="text-align:center;padding:16px;">
+          <p style="font-size:3rem;margin-bottom:16px;">${msg.split(' ')[0]}</p>
+          <p style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:8px;">${msg.slice(3)}</p>
+          <p style="font-size:1rem;color:var(--gris);">Score final : <strong style="color:var(--vert);font-size:1.25rem;">${score} / ${questions.length}</strong> (${pct}%)</p>
+          <p style="margin-top:16px;font-size:0.875rem;color:var(--gris);">${pct < 70 ? 'Consulte la ressource "Approche Capacitaire" pour approfondir.' : 'Tu maîtrises bien les bases de l\'approche capacitaire !'}</p>
+        </div>`;
+      document.getElementById('progress-fill').style.width = '100%';
+      document.getElementById('btn-restart').style.display = 'inline-flex';
+      document.getElementById('btn-next').style.display = 'none';
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => { current++; renderQuestion(); });
+    document.getElementById('btn-restart').addEventListener('click', () => {
+      current = 0; score = 0; answered = false;
+      document.getElementById('btn-restart').style.display = 'none';
+      document.getElementById('score-display').textContent = 'Score : 0 / 0';
+      renderQuestion();
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>

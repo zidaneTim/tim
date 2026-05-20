@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appréciations Bulletin — Cours TIM · Xavier Grall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #1D3557 0%, #2D6A4F 100%); }
+    .tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .tag-toggle {
+      padding: 6px 14px; border-radius: 999px; border: 2px solid #E5E7EB;
+      background: #fff; font-size: 13px; font-weight: 500; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+    }
+    .tag-toggle.pos.active { border-color: var(--vert); background: var(--vert-pale); color: var(--vert); }
+    .tag-toggle.neg.active { border-color: var(--terre); background: #FEF2F2; color: var(--terre); }
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-top: 24px; }
+    .apprec-card {
+      background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(45,106,79,0.08);
+      padding: 20px; position: relative;
+    }
+    .apprec-tone { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); margin-bottom: 8px; }
+    .apprec-text { font-size: 0.9rem; line-height: 1.65; color: var(--noir); margin-bottom: 12px; }
+    .copy-mini {
+      background: none; border: 1px solid #E5E7EB; border-radius: 6px;
+      padding: 4px 10px; font-size: 12px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; color: var(--gris);
+    }
+    .copy-mini:hover { background: var(--vert-pale); border-color: var(--vert); color: var(--vert); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Accueil</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil IA · Formateurs</p>
+      <h1>📝 Générateur d'appréciations</h1>
+      <p>Génère des appréciations de bulletin scolaire adaptées et professionnelles.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">IA Claude</span>
+        <span class="hero-chip">Toutes classes</span>
+        <span class="hero-chip">3 versions générées</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:760px;">
+
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:32px;margin-bottom:24px;">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label class="form-label">Classe</label>
+            <select id="classe" class="form-select">
+              <option>Terminale SAPAT</option>
+              <option>Première SAPAT</option>
+              <option>Seconde SAPAT</option>
+              <option>CAPa 2</option>
+              <option>CAPa 1</option>
+              <option>3ème A</option>
+              <option>3ème B</option>
+              <option>4ème</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Trimestre</label>
+            <select id="trimestre" class="form-select">
+              <option>1er trimestre</option>
+              <option>2ème trimestre</option>
+              <option>3ème trimestre</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Matière / Discipline</label>
+          <input type="text" id="matiere" class="form-input" placeholder="Ex : Technologies de l'Information et du Multimédia" value="Technologies de l'Information et du Multimédia" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Points positifs de l'élève</label>
+          <div class="tags-row" id="tags-pos">
+            <button class="tag-toggle pos active" data-val="sérieux">Sérieux</button>
+            <button class="tag-toggle pos" data-val="participatif">Participatif</button>
+            <button class="tag-toggle pos" data-val="curieux">Curieux</button>
+            <button class="tag-toggle pos" data-val="autonome">Autonome</button>
+            <button class="tag-toggle pos" data-val="créatif">Créatif</button>
+            <button class="tag-toggle pos" data-val="rigoureux">Rigoureux</button>
+            <button class="tag-toggle pos" data-val="appliqué">Appliqué</button>
+            <button class="tag-toggle pos" data-val="solidaire">Solidaire</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Points à améliorer</label>
+          <div class="tags-row" id="tags-neg">
+            <button class="tag-toggle neg" data-val="manque de régularité">Irrégulier</button>
+            <button class="tag-toggle neg" data-val="peut mieux participer">Peu participatif</button>
+            <button class="tag-toggle neg" data-val="doit consolider les bases">Bases à consolider</button>
+            <button class="tag-toggle neg" data-val="gestion du temps à améliorer">Gestion du temps</button>
+            <button class="tag-toggle neg" data-val="distrait en classe">Distrait</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Observation libre (facultatif)</label>
+          <textarea id="obs" class="form-textarea" style="min-height:80px;" placeholder="Contexte particulier, projet en cours, progression notable…"></textarea>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button id="btn-gen" class="btn btn-primary">Générer 3 appréciations →</button>
+          <button id="btn-key" class="btn btn-secondary btn-sm">🔑 Clé API</button>
+        </div>
+      </div>
+
+      <div id="output-zone"></div>
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../assets/js/claude-api.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script>
+    /* Tags toggle */
+    document.querySelectorAll('.tag-toggle').forEach(btn => {
+      btn.addEventListener('click', () => btn.classList.toggle('active'));
+    });
+
+    document.getElementById('btn-key').addEventListener('click', () => ClaudeAPI.showKeyModal(() => {}));
+
+    function getActiveTags(containerId) {
+      return [...document.querySelectorAll(`#${containerId} .tag-toggle.active`)].map(b => b.dataset.val);
+    }
+
+    document.getElementById('btn-gen').addEventListener('click', () => {
+      const pos = getActiveTags('tags-pos');
+      const neg = getActiveTags('tags-neg');
+      const obs = document.getElementById('obs').value.trim();
+
+      const system = `Tu es un enseignant expérimenté dans l'enseignement agricole en France.
+Tu rédiges des appréciations de bulletin scolaire : concises (2-3 phrases), professionnelles, bienveillantes et précises.
+Chaque appréciation doit commencer différemment et avoir un ton légèrement différent.
+Réponds UNIQUEMENT en JSON : {"appreciations": ["...", "...", "..."]}`;
+
+      const user = `Classe : ${document.getElementById('classe').value}
+Matière : ${document.getElementById('matiere').value}
+Période : ${document.getElementById('trimestre').value}
+Points positifs : ${pos.join(', ') || 'aucun sélectionné'}
+Points à améliorer : ${neg.join(', ') || 'aucun'}
+${obs ? `Observation : ${obs}` : ''}
+Génère 3 appréciations : une neutre, une encourageante, une incitative.`;
+
+      const zone = document.getElementById('output-zone');
+      zone.innerHTML = `<div class="ia-output"><div class="ia-output-header"><span class="ia-output-icon">📝</span><span class="ia-output-label">Génération en cours…</span></div><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+
+      ClaudeAPI.askWithKeyCheck({ system, user, maxTokens: 800 }, text => {
+        let appreciations = [];
+        try {
+          const json = JSON.parse(text.replace(/```json|```/g, '').trim());
+          appreciations = json.appreciations;
+        } catch {
+          appreciations = text.split('\n').filter(l => l.trim().length > 10).slice(0, 3);
+        }
+
+        const tones = ['Neutre', 'Encourageante', 'Incitative'];
+        zone.innerHTML = `
+          <p class="section-title">Appréciations générées</p>
+          <p class="section-sub" style="margin-bottom:16px;">Clique sur 📋 pour copier directement dans ton bulletin.</p>
+          <div class="results-grid">
+            ${appreciations.map((a, i) => `
+              <div class="apprec-card">
+                <p class="apprec-tone">${tones[i] || `Version ${i+1}`}</p>
+                <p class="apprec-text">${a}</p>
+                <button class="copy-mini" data-text="${a.replace(/"/g, '&quot;')}">📋 Copier</button>
+              </div>`).join('')}
+          </div>`;
+
+        document.querySelectorAll('.copy-mini').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const ok = await TIM.copy(btn.dataset.text);
+            btn.textContent = ok ? '✓ Copié !' : '❌';
+            setTimeout(() => { btn.textContent = '📋 Copier'; }, 2000);
+          });
+        });
+      }).catch(e => { if (e?.message !== 'NO_KEY') TIM.setError(zone, e.message); });
+    });
+  </script>
+</body>
+</html>

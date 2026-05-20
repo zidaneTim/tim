@@ -3,175 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Première — Cours TIM · Xavier Grall</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --vert: #2D6A4F; --vert-clair: #52B788; --vert-pale: #D8F3DC;
-      --terre: #B7472A; --creme: #F8F5F0; --noir: #1A1A1A; --gris: #6B7280;
-      --class-color: #40916C; --class-color-light: #D8F3DC;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--creme); color: var(--noir); min-height: 100vh; display: flex; flex-direction: column; }
-    header { position: sticky; top: 0; z-index: 100; background: var(--vert); height: 64px; display: flex; align-items: center; }
-    .header-inner { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 16px; }
-    .back-link { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 12px 6px 8px; border-radius: 8px; transition: background 0.15s; white-space: nowrap; }
-    .back-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
-    .header-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.25); }
-    .logo-badge { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: #fff; color: var(--vert); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; border-radius: 8px; flex-shrink: 0; }
-    .logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: #fff; }
-    .hero { background: linear-gradient(135deg, var(--class-color) 0%, #2D6A4F 100%); color: #fff; padding: 56px 24px 48px; }
-    .hero-inner { max-width: 1200px; margin: 0 auto; }
-    .hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 12px; }
-    .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px; }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 12px; }
-    .hero-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 999px; }
-    main { flex: 1; max-width: 1200px; margin: 0 auto; padding: 56px 24px 64px; width: 100%; }
-    .section { margin-bottom: 56px; }
-    .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--noir); margin-bottom: 8px; }
-    .section-sub { font-size: 0.9rem; color: var(--gris); margin-bottom: 28px; }
-    .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-    .module-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(45,106,79,0.10); overflow: hidden; }
-    .module-top { height: 6px; background: var(--class-color); }
-    .module-body { padding: 24px; }
-    .module-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; }
-    .status-encours { background: #FEF9C3; color: #854D0E; }
-    .status-avenir  { background: #F1F5F9; color: var(--gris); }
-    .status-termine { background: var(--vert-pale); color: var(--vert); }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    .module-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 8px; color: var(--noir); }
-    .module-desc { font-size: 0.875rem; color: var(--gris); line-height: 1.55; }
-    .outils-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
-    .outil-tile { background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(45,106,79,0.08); padding: 20px; text-decoration: none; color: var(--noir); display: flex; flex-direction: column; gap: 10px; transition: transform 0.15s, box-shadow 0.15s; border: 2px solid transparent; }
-    .outil-tile:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(45,106,79,0.15); border-color: var(--class-color); }
-    .outil-tile-icon { font-size: 1.75rem; }
-    .outil-tile-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; }
-    .outil-tile-desc { font-size: 0.8rem; color: var(--gris); line-height: 1.4; }
-    .agenda-list { display: flex; flex-direction: column; gap: 14px; }
-    .agenda-item { background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(45,106,79,0.08); padding: 20px 24px; display: flex; gap: 20px; align-items: flex-start; }
-    .agenda-date { background: var(--class-color-light); color: var(--class-color); border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 64px; flex-shrink: 0; }
-    .agenda-date-day { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; line-height: 1; }
-    .agenda-date-month { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 2px; }
-    .agenda-type { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gris); margin-bottom: 4px; }
-    .agenda-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
-    .agenda-desc { font-size: 0.85rem; color: var(--gris); }
-    footer { background: var(--noir); color: rgba(255,255,255,0.45); font-size: 13px; text-align: center; padding: 20px 24px; }
-    @media (max-width: 640px) { .modules-grid, .outils-grid { grid-template-columns: 1fr; } .agenda-item { flex-direction: column; gap: 12px; } main { padding: 40px 20px 48px; } }
-  </style>
+  <title>Première SAPAT - Cours TIM</title>
+  <link rel="stylesheet" href="../assets/css/design-system.css">
 </head>
 <body>
   <header>
     <div class="header-inner">
-      <a href="../index.html" class="back-link">← Accueil</a>
+      <a href="../index.html" class="back-link">Accueil</a>
       <div class="header-divider"></div>
       <span class="logo-badge">XG</span>
-      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+      <span class="logo-text">Première SAPAT</span>
     </div>
   </header>
 
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-eyebrow">Bac Pro SAPAT</p>
-      <!-- TODO: remplacer par contenu réel -->
-      <h1>Première</h1>
+      <h1>Première - TIM</h1>
+      <p>Progression MP8 et MG1 : cadre de vie, démarches courantes, outils numériques et premières analyses de données.</p>
       <div class="hero-meta">
-        <span class="hero-chip">👥 -- élèves</span>
-        <span class="hero-chip">📅 2025 – 2026</span>
-        <span class="hero-chip">🎓 Bac Pro SAPAT</span>
+        <span class="hero-chip">MP8</span>
+        <span class="hero-chip">C8.1</span>
+        <span class="hero-chip">C8.2</span>
+        <span class="hero-chip">C1.2</span>
       </div>
     </div>
   </section>
 
   <main>
     <section class="section">
-      <p class="section-title">Modules &amp; Séquences</p>
-      <p class="section-sub">Progression des modules de l'année en cours.</p>
+      <p class="section-title">Modules</p>
+      <p class="section-sub">Supports et séquences de la progression.</p>
       <div class="modules-grid">
-        <!-- TODO: remplacer par contenu réel -->
-        <div class="module-card">
-          <div class="module-top"></div>
-          <div class="module-body">
-            <span class="module-status status-encours"><span class="status-dot"></span>En cours</span>
-            <p class="module-title">Module 1 — Communication numérique</p>
-            <p class="module-desc">Découverte des outils de communication numérique professionnelle et des usages responsables.</p>
-          </div>
-        </div>
-        <!-- TODO: remplacer par contenu réel -->
-        <div class="module-card">
-          <div class="module-top"></div>
-          <div class="module-body">
-            <span class="module-status status-avenir"><span class="status-dot"></span>À venir</span>
-            <p class="module-title">Module 2 — Travail collaboratif</p>
-            <p class="module-desc">Pratique des outils collaboratifs en ligne pour la réalisation de projets communs.</p>
-          </div>
-        </div>
-        <!-- TODO: remplacer par contenu réel -->
-        <div class="module-card">
-          <div class="module-top"></div>
-          <div class="module-body">
-            <span class="module-status status-termine"><span class="status-dot"></span>Terminé</span>
-            <p class="module-title">Module 3 — Recherche d'information</p>
-            <p class="module-desc">Méthodes de recherche, évaluation de sources et gestion de la documentation numérique.</p>
-          </div>
-        </div>
+        <article class="module-card">
+          <span class="module-status">C1.2</span>
+          <p class="module-title">C1.2 - Étudier un phénomène avec des données</p>
+          <p class="module-desc">Découvrir les données, les organiser et les interpréter avec un tableur.</p>
+          <div class="button-row"><a class="btn" href="modules/c1-2.html">Ouvrir</a></div>
+        </article>
+        <article class="module-card">
+          <span class="module-status">C8.1</span>
+          <p class="module-title">C8.1 - Adapter le cadre de vie</p>
+          <p class="module-desc">Préparer des supports autour de l'accessibilité, de la sécurité, des outils numériques et de l'autonomie.</p>
+          <div class="button-row"><a class="btn" href="modules/c8-1.html">Ouvrir</a></div>
+        </article>
+        <article class="module-card">
+          <span class="module-status">C8.2</span>
+          <p class="module-title">C8.2 - Démarches courantes du quotidien</p>
+          <p class="module-desc">Utiliser la messagerie, les services en ligne, les formulaires et les documents partagés dans une posture d'accompagnement.</p>
+          <div class="button-row"><a class="btn" href="modules/c8-2.html">Ouvrir</a></div>
+        </article>
       </div>
     </section>
 
     <section class="section">
-      <p class="section-title">Outils disponibles</p>
-      <p class="section-sub">Outils interactifs associés à cette classe.</p>
-      <div class="outils-grid">
-        <!-- TODO: remplacer href par le vrai lien quand les fichiers outils seront créés -->
-        <a href="../outils/pix-parcours.html" class="outil-tile">
-          <span class="outil-tile-icon">🎯</span>
-          <p class="outil-tile-name">Parcours Pix CRCN</p>
-          <p class="outil-tile-desc">Valider les compétences numériques</p>
+      <p class="section-title">Outils</p>
+      <p class="section-sub">Activités et aides transversales.</p>
+      <div class="resources-grid">
+        <a class="resource-card" href="outils/cooperation.html">
+          <p class="resource-kind">Coopération</p>
+          <p class="resource-title">Suivi de coopération</p>
+          <p class="resource-desc">Organiser le travail de groupe et rendre visibles les contributions.</p>
         </a>
-        <a href="../outils/cooperation.html" class="outil-tile">
-          <span class="outil-tile-icon">🤝</span>
-          <p class="outil-tile-name">Suivi Coopération</p>
-          <p class="outil-tile-desc">Suivi des activités coopératives</p>
+        <a class="resource-card" href="outils/seance-ia.html">
+          <p class="resource-kind">IA</p>
+          <p class="resource-title">Séance IA</p>
+          <p class="resource-desc">Découvrir les usages responsables de l'IA en classe.</p>
         </a>
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="section-title">Agenda de la classe</p>
-      <p class="section-sub">Prochains événements importants.</p>
-      <div class="agenda-list">
-        <!-- TODO: remplacer par contenu réel -->
-        <div class="agenda-item">
-          <div class="agenda-date"><p class="agenda-date-day">20</p><p class="agenda-date-month">Jan</p></div>
-          <div class="agenda-content">
-            <p class="agenda-type">CCF</p>
-            <p class="agenda-title">Évaluation certificative — Module 1</p>
-            <p class="agenda-desc">CCF en conditions d'examen sur la communication numérique.</p>
-          </div>
-        </div>
-        <!-- TODO: remplacer par contenu réel -->
-        <div class="agenda-item">
-          <div class="agenda-date"><p class="agenda-date-day">10</p><p class="agenda-date-month">Fév</p></div>
-          <div class="agenda-content">
-            <p class="agenda-type">PFMP</p>
-            <p class="agenda-title">Période de Formation en Milieu Professionnel</p>
-            <p class="agenda-desc">Stage de 3 semaines en entreprise ou association.</p>
-          </div>
-        </div>
-        <!-- TODO: remplacer par contenu réel -->
-        <div class="agenda-item">
-          <div class="agenda-date"><p class="agenda-date-day">05</p><p class="agenda-date-month">Avr</p></div>
-          <div class="agenda-content">
-            <p class="agenda-type">Projet</p>
-            <p class="agenda-title">Restitution Projet Coopératif</p>
-            <p class="agenda-desc">Présentation orale des projets réalisés en groupe devant la classe.</p>
-          </div>
-        </div>
       </div>
     </section>
   </main>
 
-  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+  <footer>Lycée Xavier Grall - Loudéac - M. Zidane</footer>
 </body>
 </html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suivi Coopération — Première · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #40916C 0%, #1D3557 100%); }
+    .member-tag { display:inline-flex; align-items:center; gap:6px; background:var(--vert-pale); color:var(--vert); padding:5px 12px; border-radius:999px; font-size:13px; font-weight:500; }
+    .member-tag button { background:none; border:none; cursor:pointer; color:var(--vert); font-size:14px; line-height:1; padding:0 2px; }
+    .crit-row { display:flex; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid #F0EDE8; flex-wrap:wrap; }
+    .crit-label { flex:1; min-width:160px; font-size:14px; font-weight:500; }
+    .stars { display:flex; gap:4px; }
+    .star { font-size:1.25rem; cursor:pointer; opacity:0.3; transition:opacity 0.1s; }
+    .star.active { opacity:1; }
+    .log-entry { background:#F8F5F0; border-radius:12px; padding:16px; margin-bottom:10px; }
+    .log-date { font-size:11px; color:var(--gris); margin-bottom:4px; }
+    .log-text { font-size:0.875rem; color:var(--noir); line-height:1.5; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Première</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil Coopération · Première &amp; CAPa 2</p>
+      <h1>🤝 Suivi Coopération</h1>
+      <p>Suis le travail coopératif de ton groupe, évalue les compétences et génère un bilan IA.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">IA Claude</span>
+        <span class="hero-chip">Première</span>
+        <span class="hero-chip">CAPa 2</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:760px;">
+
+      <!-- Membres -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:28px;margin-bottom:20px;">
+        <p class="section-title" style="margin-bottom:16px;">Membres du groupe</p>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;" id="members-container"></div>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="member-input" class="form-input" placeholder="Prénom du membre…" style="max-width:240px;" />
+          <button id="btn-add-member" class="btn btn-primary btn-sm">+ Ajouter</button>
+        </div>
+      </div>
+
+      <!-- Projet -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:28px;margin-bottom:20px;">
+        <p class="section-title" style="margin-bottom:16px;">Projet en cours</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label class="form-label">Nom du projet</label>
+            <input type="text" id="project-name" class="form-input" placeholder="Ex : Jardin partagé du lycée…" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Session</label>
+            <input type="text" id="session-date" class="form-input" placeholder="Séance 1 — 12 jan." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ce qu'on a réalisé cette séance</label>
+          <textarea id="session-work" class="form-textarea" style="min-height:80px;" placeholder="Résume les activités réalisées…"></textarea>
+        </div>
+        <button id="btn-log" class="btn btn-primary btn-sm">📝 Enregistrer la séance</button>
+      </div>
+
+      <!-- Critères coopération -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:28px;margin-bottom:20px;">
+        <p class="section-title" style="margin-bottom:4px;">Évaluation de la coopération</p>
+        <p class="section-sub">Note chaque critère de 1 à 5 étoiles.</p>
+        <div id="criteria-list"></div>
+      </div>
+
+      <!-- Journal -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:28px;margin-bottom:20px;">
+        <p class="section-title" style="margin-bottom:16px;">Journal du groupe</p>
+        <div id="log-list"><p style="color:var(--gris);font-size:14px;">Aucune séance enregistrée.</p></div>
+      </div>
+
+      <!-- Bilan IA -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;">
+        <button id="btn-bilan" class="btn btn-primary">🤖 Générer le bilan IA →</button>
+        <button id="btn-key" class="btn btn-secondary btn-sm">🔑 Clé API</button>
+      </div>
+      <div id="output-zone"></div>
+
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../../assets/js/claude-api.js"></script>
+  <script src="../../assets/js/utils.js"></script>
+  <script>
+    const members = [];
+    const log = [];
+    const ratings = {};
+
+    const criteria = [
+      { id:'ecoute', label:'Écoute et respect des autres' },
+      { id:'participation', label:'Participation active de tous' },
+      { id:'partage', label:'Partage des tâches équitable' },
+      { id:'communication', label:'Communication ouverte' },
+      { id:'resolution', label:'Résolution des désaccords' },
+    ];
+
+    /* Init criteria */
+    const critList = document.getElementById('criteria-list');
+    criteria.forEach(c => {
+      ratings[c.id] = 0;
+      const row = document.createElement('div');
+      row.className = 'crit-row';
+      row.innerHTML = `
+        <span class="crit-label">${c.label}</span>
+        <div class="stars" data-id="${c.id}">
+          ${[1,2,3,4,5].map(n => `<span class="star" data-val="${n}">⭐</span>`).join('')}
+        </div>
+        <span class="rating-text" data-id="${c.id}" style="font-size:12px;color:var(--gris);min-width:40px;">—</span>`;
+      critList.appendChild(row);
+    });
+
+    critList.addEventListener('click', e => {
+      const star = e.target.closest('.star');
+      if (!star) return;
+      const id = star.closest('.stars').dataset.id;
+      const val = parseInt(star.dataset.val);
+      ratings[id] = val;
+      star.closest('.stars').querySelectorAll('.star').forEach((s, i) => {
+        s.classList.toggle('active', i < val);
+      });
+      document.querySelector(`.rating-text[data-id="${id}"]`).textContent = `${val}/5`;
+    });
+
+    /* Members */
+    function renderMembers() {
+      const container = document.getElementById('members-container');
+      container.innerHTML = members.map((m, i) => `
+        <span class="member-tag">${m} <button onclick="removeMember(${i})">×</button></span>`).join('');
+    }
+
+    window.removeMember = i => { members.splice(i, 1); renderMembers(); };
+
+    document.getElementById('btn-add-member').addEventListener('click', () => {
+      const val = document.getElementById('member-input').value.trim();
+      if (val && !members.includes(val)) { members.push(val); renderMembers(); }
+      document.getElementById('member-input').value = '';
+    });
+    document.getElementById('member-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btn-add-member').click();
+    });
+
+    /* Log */
+    document.getElementById('btn-log').addEventListener('click', () => {
+      const proj = document.getElementById('project-name').value.trim();
+      const session = document.getElementById('session-date').value.trim();
+      const work = document.getElementById('session-work').value.trim();
+      if (!work) return;
+      log.push({ proj, session, work, date: TIM.dateStr() });
+      document.getElementById('session-work').value = '';
+      renderLog();
+    });
+
+    function renderLog() {
+      const el = document.getElementById('log-list');
+      if (!log.length) { el.innerHTML = '<p style="color:var(--gris);font-size:14px;">Aucune séance enregistrée.</p>'; return; }
+      el.innerHTML = [...log].reverse().map(e => `
+        <div class="log-entry">
+          <p class="log-date">${e.session || e.date}${e.proj ? ` — ${e.proj}` : ''}</p>
+          <p class="log-text">${e.work}</p>
+        </div>`).join('');
+    }
+
+    /* Bilan IA */
+    document.getElementById('btn-key').addEventListener('click', () => ClaudeAPI.showKeyModal(() => {}));
+
+    document.getElementById('btn-bilan').addEventListener('click', () => {
+      const ratingsSummary = criteria.map(c => `${c.label} : ${ratings[c.id] || 'non noté'}/5`).join('\n');
+      const logSummary = log.map(e => `- ${e.session || e.date} : ${e.work}`).join('\n') || 'Aucune séance enregistrée.';
+
+      const system = `Tu es un professeur expert en pédagogie coopérative dans l'enseignement agricole.
+Tu rédiges un bilan bienveillant et constructif du travail de groupe d'élèves.
+Sois encourageant, précis et propose des pistes d'amélioration concrètes.`;
+
+      const user = `Groupe : ${members.join(', ') || 'non défini'}
+Projet : ${document.getElementById('project-name').value || 'non défini'}
+
+Évaluations de la coopération :
+${ratingsSummary}
+
+Journal des séances :
+${logSummary}
+
+Rédige un bilan du travail coopératif en 3 parties : Points forts collectifs / Axes d'amélioration / Conseil pour la prochaine séance.`;
+
+      const zone = document.getElementById('output-zone');
+      zone.innerHTML = `<div class="ia-output"><div class="ia-output-header"><span class="ia-output-icon">🤝</span><span class="ia-output-label">Génération du bilan…</span></div><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+
+      ClaudeAPI.askWithKeyCheck({ system, user, maxTokens: 1000 }, text => {
+        zone.innerHTML = `<div class="ia-output"><div class="ia-output-header"><span class="ia-output-icon">🤝</span><span class="ia-output-label">Bilan coopératif</span></div><div class="ia-output-body">${TIM.md(text)}</div></div>`;
+      }).catch(e => { if (e?.message !== 'NO_KEY') TIM.setError(zone, e.message); });
+    });
+  </script>
+</body>
+</html>

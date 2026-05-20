@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grille MP8 — CAPa 2 · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #B7472A 0%, #1A1A2E 100%); }
+    .grille-table { width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(45,106,79,.1); }
+    .grille-table th { background:#F8F5F0; padding:12px 16px; text-align:left; font-family:'Syne',sans-serif; font-weight:700; font-size:13px; color:var(--gris); letter-spacing:0.04em; text-transform:uppercase; }
+    .grille-table td { padding:14px 16px; border-top:1px solid #F0EDE8; vertical-align:top; }
+    .capa-label { font-family:'Syne',sans-serif; font-weight:700; font-size:0.85rem; margin-bottom:4px; }
+    .capa-desc { font-size:0.8rem; color:var(--gris); line-height:1.45; }
+    .level-radios { display:flex; gap:6px; flex-wrap:wrap; }
+    .level-radio { display:none; }
+    .level-label { padding:5px 12px; border-radius:8px; border:1px solid #E5E7EB; font-size:12px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.12s; white-space:nowrap; }
+    .level-radio[value="0"]:checked + .level-label { background:#FEF2F2; border-color:#FCA5A5; color:#DC2626; border-width:2px; }
+    .level-radio[value="1"]:checked + .level-label { background:#FEF9C3; border-color:#FCD34D; color:#92400E; border-width:2px; }
+    .level-radio[value="2"]:checked + .level-label { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; border-width:2px; }
+    .level-radio[value="3"]:checked + .level-label { background:var(--vert-pale); border-color:var(--vert-clair); color:var(--vert); border-width:2px; }
+    .score-bar-track { height:14px; background:#F1F5F9; border-radius:8px; overflow:hidden; }
+    .score-bar-fill { height:100%; background:var(--terre); border-radius:8px; transition:width 0.4s ease; }
+    .obs-input { width:100%; padding:8px 12px; border:1px solid #E5E7EB; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--noir); outline:none; resize:none; }
+    .obs-input:focus { border-color:var(--terre); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← CAPa 2</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil Évaluation · CAPa 2 SAPVER</p>
+      <h1>📋 Grille MP8</h1>
+      <p>Évaluation des compétences du Module Professionnel 8 — CAPa SAPVER.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">CCF</span>
+        <span class="hero-chip">MP8 TIM/ESF</span>
+        <span class="hero-chip">CAPa SAPVER</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:24px;margin-bottom:28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <p style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:4px;">Score global</p>
+        <div class="score-bar-track"><div class="score-bar-fill" id="global-bar" style="width:0%;"></div></div>
+      </div>
+      <div style="text-align:center;min-width:80px;">
+        <p id="score-display" style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--terre);">0</p>
+        <p style="font-size:12px;color:var(--gris);">/ 24 pts</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="btn-export" class="btn btn-secondary btn-sm">📋 Copier bilan</button>
+        <button id="btn-reset" class="btn btn-sm" style="background:#F1F5F9;color:var(--gris);border:none;">🔄 Réinitialiser</button>
+      </div>
+    </div>
+
+    <table class="grille-table" id="grille">
+      <thead><tr>
+        <th style="width:40%;">Capacité</th>
+        <th style="width:40%;">Niveau</th>
+        <th style="width:20%;">Observation</th>
+      </tr></thead>
+      <tbody id="grille-body"></tbody>
+    </table>
+
+    <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--gris);">
+      <span style="padding:4px 10px;background:#FEF2F2;border-radius:6px;color:#DC2626;">Non acquis = 0</span>
+      <span style="padding:4px 10px;background:#FEF9C3;border-radius:6px;color:#92400E;">En cours = 1</span>
+      <span style="padding:4px 10px;background:#DBEAFE;border-radius:6px;color:#1D4ED8;">Acquis = 2</span>
+      <span style="padding:4px 10px;background:var(--vert-pale);border-radius:6px;color:var(--vert);">Maîtrisé = 3</span>
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script>
+    /* TODO: remplacer par les capacités officielles MP8 CAPa SAPVER */
+    const capacites = [
+      { id:'c1', label:'C8.1 — Utiliser les outils de communication numérique', desc:'Messagerie professionnelle, outils collaboratifs en ligne, partage de fichiers.' },
+      { id:'c2', label:'C8.2 — Rechercher et évaluer des informations', desc:'Effectuer des recherches ciblées, vérifier la fiabilité des sources numériques.' },
+      { id:'c3', label:'C8.3 — Produire un document simple', desc:'Rédiger et mettre en forme un document professionnel avec un logiciel de traitement de texte.' },
+      { id:'c4', label:'C8.4 — Utiliser un tableur', desc:'Saisir des données, utiliser des formules de base, créer un tableau récapitulatif.' },
+      { id:'c5', label:'C8.5 — Réaliser une présentation numérique', desc:'Créer un diaporama structuré pour présenter un travail ou un projet professionnel.' },
+      { id:'c6', label:'C8.6 — Sécuriser ses usages numériques', desc:'Protéger ses mots de passe, identifier les risques en ligne, respecter la vie privée.' },
+      { id:'c7', label:'C8.7 — Gérer ses fichiers et données', desc:'Organiser, nommer et sauvegarder ses fichiers de façon méthodique.' },
+      { id:'c8', label:'C8.8 — S\'adapter à un nouvel outil numérique', desc:'Explorer et utiliser un nouvel outil ou une nouvelle application rapidement.' },
+    ];
+
+    const scores = {};
+    const observations = {};
+    const tbody = document.getElementById('grille-body');
+
+    capacites.forEach(c => {
+      scores[c.id] = -1;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><p class="capa-label">${c.label}</p><p class="capa-desc">${c.desc}</p></td>
+        <td><div class="level-radios">
+          ${[0,1,2,3].map(v => `<input type="radio" class="level-radio" name="${c.id}" id="${c.id}-${v}" value="${v}"><label class="level-label" for="${c.id}-${v}">${['Non acquis','En cours','Acquis','Maîtrisé'][v]}</label>`).join('')}
+        </div></td>
+        <td><textarea class="obs-input" rows="2" placeholder="Remarque…" data-id="${c.id}"></textarea></td>`;
+      tbody.appendChild(tr);
+    });
+
+    function updateScore() {
+      let total = 0;
+      capacites.forEach(c => {
+        const checked = document.querySelector(`input[name="${c.id}"]:checked`);
+        if (checked) total += parseInt(checked.value);
+      });
+      document.getElementById('score-display').textContent = total;
+      document.getElementById('global-bar').style.width = (total / 24 * 100) + '%';
+    }
+
+    document.getElementById('grille').addEventListener('change', updateScore);
+    document.querySelectorAll('.obs-input').forEach(el => { el.addEventListener('input', () => { observations[el.dataset.id] = el.value; }); });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      document.querySelectorAll('.level-radio').forEach(r => r.checked = false);
+      document.querySelectorAll('.obs-input').forEach(el => el.value = '');
+      updateScore();
+    });
+
+    document.getElementById('btn-export').addEventListener('click', async () => {
+      let text = `GRILLE MP8 CAPa 2 — ${new Date().toLocaleDateString('fr-FR')}\n${'='.repeat(40)}\n`;
+      let total = 0;
+      capacites.forEach(c => {
+        const checked = document.querySelector(`input[name="${c.id}"]:checked`);
+        const level = checked ? ['Non acquis','En cours','Acquis','Maîtrisé'][checked.value] : 'Non évalué';
+        const obs = observations[c.id] || '';
+        text += `\n${c.label}\n  Niveau : ${level}\n${obs ? `  Obs : ${obs}\n` : ''}`;
+        if (checked) total += parseInt(checked.value);
+      });
+      text += `\n${'='.repeat(40)}\nSCORE TOTAL : ${total}/24`;
+      const ok = await TIM.copy(text);
+      document.getElementById('btn-export').textContent = ok ? '✓ Copié !' : '❌';
+      setTimeout(() => { document.getElementById('btn-export').textContent = '📋 Copier bilan'; }, 2500);
+    });
+  </script>
+</body>
+</html>

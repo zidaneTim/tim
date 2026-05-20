@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulateur Fractions — 4ème · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #1D3557 0%, #457B9D 100%); }
+    .frac-card { background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(45,106,79,.1); padding:32px; margin-bottom:24px; }
+    .frac-input-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .frac-box { display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .frac-num-input, .frac-den-input { width:72px; height:52px; text-align:center; font-size:1.4rem; font-weight:700; border:2px solid #E5E7EB; border-radius:10px; font-family:'Syne',sans-serif; outline:none; transition:border-color 0.15s; }
+    .frac-num-input:focus, .frac-den-input:focus { border-color:#1D3557; }
+    .frac-line { width:72px; height:3px; background:var(--noir); border-radius:2px; }
+    .op-select { font-size:1.75rem; font-weight:800; color:#1D3557; padding:8px; border:2px solid #E5E7EB; border-radius:10px; font-family:'Syne',sans-serif; background:#fff; cursor:pointer; outline:none; }
+    .equals { font-size:1.75rem; font-weight:800; color:var(--gris); }
+    .result-display { display:flex; flex-direction:column; align-items:center; gap:4px; min-width:80px; }
+    .result-num { font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:#1D3557; text-align:center; }
+    .result-line { width:80px; height:3px; background:#1D3557; border-radius:2px; }
+    .result-den { font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:#1D3557; text-align:center; }
+    .viz-container { display:flex; gap:24px; flex-wrap:wrap; margin-top:24px; }
+    .viz-bar { flex:1; min-width:160px; }
+    .viz-label { font-size:13px; font-weight:500; color:var(--gris); margin-bottom:8px; }
+    .bar-track { height:36px; background:#F1F5F9; border-radius:10px; overflow:hidden; display:flex; }
+    .bar-fill { height:100%; transition:width 0.4s ease; border-radius:10px; }
+    .bar-fraction { font-family:'Syne',sans-serif; font-weight:700; font-size:0.85rem; text-align:center; margin-top:6px; }
+    .steps { background:#F8F5F0; border-radius:12px; padding:20px; margin-top:20px; }
+    .step { font-size:0.9rem; line-height:1.7; color:var(--noir); }
+    .step + .step { margin-top:8px; padding-top:8px; border-top:1px dashed #E5E7EB; }
+    .step em { color:#1D3557; font-style:normal; font-weight:600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← 4ème</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil Maths · 4ème &amp; CAPa 1</p>
+      <h1>➗ Simulateur Fractions</h1>
+      <p>Manipule des fractions visuellement et comprends le calcul étape par étape.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">4ème</span>
+        <span class="hero-chip">CAPa 1</span>
+        <span class="hero-chip">Interactif</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:700px;">
+      <div class="frac-card">
+        <p class="section-title" style="margin-bottom:24px;">Calcul de fractions</p>
+        <div class="frac-input-row">
+          <div class="frac-box">
+            <input type="number" id="a-num" class="frac-num-input" value="1" min="-99" max="99" />
+            <div class="frac-line"></div>
+            <input type="number" id="a-den" class="frac-den-input" value="2" min="1" max="99" />
+          </div>
+          <select id="operation" class="op-select">
+            <option value="add">+</option>
+            <option value="sub">−</option>
+            <option value="mul">×</option>
+            <option value="div">÷</option>
+          </select>
+          <div class="frac-box">
+            <input type="number" id="b-num" class="frac-num-input" value="1" min="-99" max="99" />
+            <div class="frac-line"></div>
+            <input type="number" id="b-den" class="frac-den-input" value="3" min="1" max="99" />
+          </div>
+          <span class="equals">=</span>
+          <div class="result-display">
+            <div class="result-num" id="res-num">?</div>
+            <div class="result-line" id="res-line" style="display:none;"></div>
+            <div class="result-den" id="res-den" style="display:none;">?</div>
+          </div>
+        </div>
+        <div class="viz-container">
+          <div class="viz-bar"><p class="viz-label">Fraction A</p><div class="bar-track"><div id="bar-a" class="bar-fill" style="background:#457B9D;width:50%;"></div></div><p class="bar-fraction" id="lbl-a">1/2</p></div>
+          <div class="viz-bar"><p class="viz-label">Fraction B</p><div class="bar-track"><div id="bar-b" class="bar-fill" style="background:#E63946;width:33%;"></div></div><p class="bar-fraction" id="lbl-b">1/3</p></div>
+          <div class="viz-bar"><p class="viz-label">Résultat</p><div class="bar-track"><div id="bar-r" class="bar-fill" style="background:#1D3557;width:0%;"></div></div><p class="bar-fraction" id="lbl-r">—</p></div>
+        </div>
+        <div class="steps" id="steps-zone" style="display:none;">
+          <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;margin-bottom:12px;">Étapes du calcul</p>
+          <div id="steps-content"></div>
+        </div>
+      </div>
+
+      <div class="frac-card">
+        <p class="section-title" style="margin-bottom:16px;">Exercices pratiques</p>
+        <p class="section-sub">Clique pour charger l'exercice automatiquement.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-secondary" data-a-num="3" data-a-den="4" data-b-num="1" data-b-den="4" data-op="add">➕ 3/4 + 1/4</button>
+          <button class="btn btn-secondary" data-a-num="2" data-a-den="3" data-b-num="1" data-b-den="6" data-op="add">➕ 2/3 + 1/6 (dénominateurs différents)</button>
+          <button class="btn btn-secondary" data-a-num="5" data-a-den="8" data-b-num="3" data-b-den="8" data-op="sub">➖ 5/8 − 3/8</button>
+          <button class="btn btn-secondary" data-a-num="2" data-a-den="3" data-b-num="3" data-b-den="4" data-op="mul">✖ 2/3 × 3/4</button>
+          <button class="btn btn-secondary" data-a-num="3" data-a-den="5" data-b-num="2" data-b-den="5" data-op="div">➗ 3/5 ÷ 2/5</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script>
+    function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a;}
+    function lcm(a,b){return Math.abs(a*b)/gcd(a,b);}
+    function calculate(){
+      const aN=parseInt(document.getElementById('a-num').value)||0;
+      const aD=parseInt(document.getElementById('a-den').value)||1;
+      const bN=parseInt(document.getElementById('b-num').value)||0;
+      const bD=parseInt(document.getElementById('b-den').value)||1;
+      const op=document.getElementById('operation').value;
+      if(aD===0||bD===0)return;
+      let rN,rD,steps=[];
+      switch(op){
+        case'add':{const l=lcm(aD,bD);rN=aN*(l/aD)+bN*(l/bD);rD=l;steps=[`<div class="step">PPCM de ${aD} et ${bD} : <em>${l}</em></div>`,`<div class="step">${aN}/${aD} = <em>${aN*(l/aD)}/${l}</em> &nbsp;et&nbsp; ${bN}/${bD} = <em>${bN*(l/bD)}/${l}</em></div>`,`<div class="step">Addition : <em>${aN*(l/aD)} + ${bN*(l/bD)} = ${rN}</em></div>`];break;}
+        case'sub':{const l=lcm(aD,bD);rN=aN*(l/aD)-bN*(l/bD);rD=l;steps=[`<div class="step">PPCM : <em>${l}</em></div>`,`<div class="step">${aN}/${aD} = <em>${aN*(l/aD)}/${l}</em> &nbsp;et&nbsp; ${bN}/${bD} = <em>${bN*(l/bD)}/${l}</em></div>`,`<div class="step">Soustraction : <em>${aN*(l/aD)} − ${bN*(l/bD)} = ${rN}</em></div>`];break;}
+        case'mul':rN=aN*bN;rD=aD*bD;steps=[`<div class="step">Numérateurs : <em>${aN} × ${bN} = ${rN}</em></div>`,`<div class="step">Dénominateurs : <em>${aD} × ${bD} = ${rD}</em></div>`];break;
+        case'div':rN=aN*bD;rD=aD*bN;steps=[`<div class="step">Diviser = multiplier par l'inverse</div>`,`<div class="step">${aN}/${aD} × <em>${bD}/${bN}</em> = <em>${rN}/${Math.abs(rD)}</em></div>`];if(rD<0){rN=-rN;rD=-rD;}break;
+      }
+      const g=gcd(Math.abs(rN),Math.abs(rD));const sN=rN/g;const sD=rD/g;
+      if(g>1)steps.push(`<div class="step">Simplification par <em>${g}</em> → <em>${sN}/${sD}</em></div>`);
+      if(sD===1){document.getElementById('res-num').textContent=sN;document.getElementById('res-line').style.display='none';document.getElementById('res-den').style.display='none';}
+      else{document.getElementById('res-num').textContent=sN;document.getElementById('res-line').style.display='block';document.getElementById('res-den').style.display='block';document.getElementById('res-den').textContent=sD;}
+      const maxVal=Math.max(Math.abs(aN/aD),Math.abs(bN/bD),Math.abs(rN/rD),1);
+      document.getElementById('bar-a').style.width=Math.min(100,Math.max(0,(Math.abs(aN/aD)/maxVal)*100))+'%';
+      document.getElementById('bar-b').style.width=Math.min(100,Math.max(0,(Math.abs(bN/bD)/maxVal)*100))+'%';
+      document.getElementById('bar-r').style.width=Math.min(100,Math.max(0,(Math.abs(sN/sD)/maxVal)*100))+'%';
+      document.getElementById('lbl-a').textContent=`${aN}/${aD}`;
+      document.getElementById('lbl-b').textContent=`${bN}/${bD}`;
+      document.getElementById('lbl-r').textContent=sD===1?`${sN}`:`${sN}/${sD}`;
+      document.getElementById('steps-zone').style.display='block';
+      document.getElementById('steps-content').innerHTML=steps.join('');
+    }
+    ['a-num','a-den','b-num','b-den','operation'].forEach(id=>{document.getElementById(id).addEventListener('input',calculate);});
+    document.querySelectorAll('.btn-secondary[data-a-num]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.getElementById('a-num').value=btn.dataset.anum;
+        document.getElementById('a-den').value=btn.dataset.aden;
+        document.getElementById('b-num').value=btn.dataset.bnum;
+        document.getElementById('b-den').value=btn.dataset.bden;
+        document.getElementById('operation').value=btn.dataset.op;
+        calculate();
+      });
+    });
+    calculate();
+  </script>
+</body>
+</html>

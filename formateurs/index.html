@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Formateurs — Cours TIM · Xavier Grall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #1D3557 0%, #2D6A4F 100%); }
+    .tools-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+    .tool-card {
+      background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(45,106,79,.1);
+      padding:28px; display:flex; flex-direction:column; gap:16px;
+    }
+    .tool-icon { font-size:2.25rem; }
+    .tool-name { font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; }
+    .tool-desc { font-size:0.875rem; color:var(--gris); line-height:1.55; flex:1; }
+    .key-info { background:#F8F5F0; border-radius:12px; padding:20px; margin-bottom:28px; font-size:0.9rem; line-height:1.6; }
+    .key-info strong { color:var(--vert); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Accueil</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">IFEAP / IEA · Formateurs</p>
+      <h1>🏫 Espace Formateurs</h1>
+      <p>Outils réservés aux enseignants et formateurs du lycée Xavier Grall.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">Formateurs</span>
+        <span class="hero-chip">IFEAP</span>
+        <span class="hero-chip">IEA</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <div class="key-info">
+      <strong>🔑 Clé API :</strong> Les outils IA de cet espace nécessitent une clé Anthropic.
+      Elle est sauvegardée dans <strong>ce navigateur uniquement</strong> (localStorage) et n'apparaît jamais dans le code.
+      Clique sur le bouton <strong>🔑 Clé API</strong> dans l'un des outils pour la configurer.
+      <br><br>
+      <button id="btn-set-key" class="btn btn-primary btn-sm">🔑 Configurer la clé API maintenant</button>
+      <span id="key-status" style="margin-left:12px;font-size:13px;color:var(--gris);"></span>
+    </div>
+
+    <p class="section-title" style="margin-bottom:8px;">Outils formateurs</p>
+    <p class="section-sub">Ressources et outils IA pour préparer et animer les séquences.</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-icon">🎲</div>
+        <p class="tool-name">CapaJeu</p>
+        <p class="tool-desc">Jeu d'auto-positionnement IEA pour évaluer les compétences capacitaires des apprenants de façon ludique.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-ia">IEA</span>
+          <span class="class-tag">Formateurs</span>
+        </div>
+        <a href="capajeu.html" class="btn btn-primary">Ouvrir CapaJeu →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">🧩</div>
+        <p class="tool-name">Approche Capacitaire</p>
+        <p class="tool-desc">Ressources et fiches sur l'approche capacitaire : méthodes, exemples de séquences et outils d'évaluation.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="class-tag">Formateurs</span>
+        </div>
+        <a href="approche-capacitaire.html" class="btn btn-primary">Voir les ressources →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">📝</div>
+        <p class="tool-name">Appréciations Bulletin</p>
+        <p class="tool-desc">Génère des appréciations de bulletin scolaire adaptées en quelques secondes grâce à l'IA Claude.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-ia">IA Claude</span>
+          <span class="class-tag">Toutes classes</span>
+        </div>
+        <a href="../outils/appreciation-bulletin.html" class="btn btn-primary">Générer des appréciations →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">🎯</div>
+        <p class="tool-name">Parcours Pix CRCN</p>
+        <p class="tool-desc">Outil IA pour construire des parcours Pix personnalisés pour chaque classe et chaque élève.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-ia">IA Claude</span>
+          <span class="class-tag">Toutes classes</span>
+        </div>
+        <a href="../outils/pix-parcours.html" class="btn btn-primary">Ouvrir Pix →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">📋</div>
+        <p class="tool-name">Grille MP8</p>
+        <p class="tool-desc">Grille d'évaluation interactive des compétences MP8 TIM pour CAPa et Terminale.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-ccf">CCF</span>
+          <span class="class-tag">CAPa 2</span>
+          <span class="class-tag">Terminale</span>
+        </div>
+        <a href="../terminale/outils/grille-mp8.html" class="btn btn-primary">Ouvrir la grille →</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../assets/js/claude-api.js"></script>
+  <script>
+    const statusEl = document.getElementById('key-status');
+    statusEl.textContent = ClaudeAPI.hasKey() ? '✅ Clé configurée' : '⚠ Aucune clé';
+    statusEl.style.color = ClaudeAPI.hasKey() ? 'var(--vert)' : 'var(--terre)';
+
+    document.getElementById('btn-set-key').addEventListener('click', () => {
+      ClaudeAPI.showKeyModal(() => {
+        statusEl.textContent = '✅ Clé configurée';
+        statusEl.style.color = 'var(--vert)';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback E6 IA — Terminale · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #1A1A2E 0%, #2D6A4F 100%); }
+    .tool-card { background:#fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(45,106,79,0.10); padding: 32px; }
+    .char-count { font-size: 12px; color: var(--gris); text-align: right; margin-top: 4px; }
+    .score-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .score-chip {
+      padding: 8px 16px; border-radius: 10px; border: 2px solid #E5E7EB;
+      background: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+    }
+    .score-chip.active { border-color: var(--vert); background: var(--vert-pale); color: var(--vert); }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+    .key-btn { background: none; border: 1px solid #E5E7EB; border-radius: 8px; padding: 6px 12px; font-size: 12px; color: var(--gris); cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    .key-btn:hover { border-color: var(--gris); }
+    .copy-btn { background: none; border: none; cursor: pointer; color: var(--gris); font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 4px 8px; border-radius: 6px; }
+    .copy-btn:hover { background: var(--vert-pale); color: var(--vert); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Terminale</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil IA · Terminale Bac Pro</p>
+      <h1>🤖 Feedback E6 IA</h1>
+      <p>Colle ta production écrite et obtiens un retour détaillé avant l'épreuve.</p>
+      <div class="hero-meta">
+        <span class="hero-chip badge-ia">IA Claude</span>
+        <span class="hero-chip">Bac Pro SAPAT</span>
+        <span class="hero-chip">Épreuve E6</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:780px;">
+
+      <div class="tool-card" style="margin-bottom:24px;">
+        <div class="form-group">
+          <label class="form-label">Type de production</label>
+          <select id="type-prod" class="form-select">
+            <option value="analyse">Analyse de document professionnel</option>
+            <option value="synthese">Synthèse de documents</option>
+            <option value="lettre">Lettre / écrit professionnel</option>
+            <option value="compte-rendu">Compte-rendu de situation</option>
+            <option value="libre">Production libre (dissertation, réflexion…)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sujet ou consigne (facultatif)</label>
+          <input type="text" id="sujet" class="form-input" placeholder="Ex : Analysez ce document en lien avec votre expérience professionnelle…" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ta production écrite</label>
+          <textarea id="production" class="form-textarea" style="min-height:200px;"
+            placeholder="Colle ou tape ta production ici…"></textarea>
+          <div class="char-count"><span id="word-count">0</span> mots</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="margin-bottom:8px;">Niveau visé</label>
+          <div class="score-row">
+            <button class="score-chip active" data-val="attendu">Attendu (10–12/20)</button>
+            <button class="score-chip" data-val="bien">Bien (13–15/20)</button>
+            <button class="score-chip" data-val="tres-bien">Très bien (16+/20)</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="btn-analyse" class="btn btn-primary">Analyser ma production →</button>
+          <button id="btn-key" class="key-btn">🔑 Clé API</button>
+        </div>
+      </div>
+
+      <div id="output-zone"></div>
+
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../../assets/js/claude-api.js"></script>
+  <script src="../../assets/js/utils.js"></script>
+  <script>
+    let niveau = 'attendu';
+
+    /* Compteur mots */
+    document.getElementById('production').addEventListener('input', function() {
+      document.getElementById('word-count').textContent = TIM.wordCount(this.value);
+    });
+
+    /* Sélection niveau */
+    document.querySelectorAll('.score-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.score-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        niveau = btn.dataset.val;
+      });
+    });
+
+    /* Clé API */
+    document.getElementById('btn-key').addEventListener('click', () => {
+      ClaudeAPI.showKeyModal(() => {});
+    });
+
+    /* Analyse */
+    document.getElementById('btn-analyse').addEventListener('click', async () => {
+      const prod = document.getElementById('production').value.trim();
+      if (prod.length < 50) {
+        alert('Ta production est trop courte (50 caractères minimum).');
+        return;
+      }
+
+      const typeProd = document.getElementById('type-prod').value;
+      const sujet = document.getElementById('sujet').value.trim();
+      const niveauLabel = { attendu: '10–12/20', bien: '13–15/20', 'tres-bien': '16+/20' }[niveau];
+
+      const system = `Tu es un professeur de Français bienveillant et expert, spécialisé dans le Bac Professionnel SAPAT (Services Aux Personnes et Aux Territoires).
+Tu évalues des productions écrites d'élèves de Terminale Bac Pro pour l'épreuve E6.
+Donne un feedback structuré, encourageant mais précis. Utilise un langage accessible.
+Formate ta réponse en sections claires : Points forts / Axes d'amélioration / Conseils concrets / Estimation de note.`;
+
+      const user = `Type de production : ${typeProd}
+${sujet ? `Consigne : ${sujet}` : ''}
+Niveau visé par l'élève : ${niveauLabel}
+
+PRODUCTION :
+${prod}
+
+Donne un feedback détaillé en 4 parties.`;
+
+      const zone = document.getElementById('output-zone');
+      zone.innerHTML = `<div class="ia-output"><div class="ia-output-header"><span class="ia-output-icon">🤖</span><span class="ia-output-label">Analyse en cours…</span></div><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+
+      try {
+        const result = await ClaudeAPI.askWithKeyCheck({ system, user, maxTokens: 1800 }, (text) => {
+          zone.innerHTML = `
+            <div class="ia-output">
+              <div class="ia-output-header">
+                <span class="ia-output-icon">🤖</span>
+                <span class="ia-output-label">Feedback de ta production</span>
+                <button class="copy-btn" id="copy-feedback" style="margin-left:auto;">📋 Copier</button>
+              </div>
+              <div class="ia-output-body" id="feedback-text">${TIM.md(text)}</div>
+            </div>`;
+
+          document.getElementById('copy-feedback').addEventListener('click', async () => {
+            const ok = await TIM.copy(text);
+            document.getElementById('copy-feedback').textContent = ok ? '✓ Copié !' : '❌ Erreur';
+            setTimeout(() => { document.getElementById('copy-feedback').textContent = '📋 Copier'; }, 2000);
+          });
+        });
+      } catch (e) {
+        if (e.message !== 'NO_KEY') {
+          TIM.setError(zone, `Erreur : ${e.message}`);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

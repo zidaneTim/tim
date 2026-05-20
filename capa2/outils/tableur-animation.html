@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableur Scénarios — CAPa 2 · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #B7472A 0%, #1D3557 100%); }
+    .scenario-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; }
+    .tab-btn {
+      padding:9px 18px; border-radius:10px; border:2px solid #E5E7EB; background:#fff;
+      font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif;
+      transition:all 0.15s;
+    }
+    .tab-btn.active { border-color:var(--terre); background:#FEF2F2; color:var(--terre); }
+    .tableur { width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(45,106,79,.1); }
+    .tableur th { background:var(--noir); color:#fff; padding:12px 16px; text-align:left; font-family:'Syne',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; }
+    .tableur td { padding:12px 16px; border-top:1px solid #F0EDE8; font-size:14px; vertical-align:middle; }
+    .tableur tr:hover td { background:#FAFAF9; }
+    .cell-input {
+      width:100%; border:none; background:transparent; font-family:'DM Sans',sans-serif;
+      font-size:14px; color:var(--noir); outline:none; padding:2px 4px; border-radius:4px;
+    }
+    .cell-input:focus { background:#F0FDF4; }
+    .cell-total { font-family:'Syne',sans-serif; font-weight:700; color:var(--vert); }
+    .hint { background:var(--vert-pale); border-radius:12px; padding:16px 20px; margin-bottom:20px; font-size:0.875rem; color:var(--vert); line-height:1.55; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← CAPa 2</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil Tableur · CAPa 2 SAPVER</p>
+      <h1>📊 Activité Tableur — Scénarios</h1>
+      <p>Pratique les tableurs sur des situations professionnelles réelles du secteur vert.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">CAPa 2</span>
+        <span class="hero-chip">Tableur interactif</span>
+        <span class="hero-chip">SAPVER</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="scenario-tabs">
+      <button class="tab-btn active" data-scenario="budget">Budget chantier</button>
+      <button class="tab-btn" data-scenario="planning">Planning hebdo</button>
+      <button class="tab-btn" data-scenario="stock">Gestion de stock</button>
+    </div>
+
+    <div id="scenario-zone"></div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../../assets/js/utils.js"></script>
+  <script>
+    const scenarios = {
+      budget: {
+        title: '🌿 Budget d\'un chantier vert',
+        hint: 'Saisis les quantités et prix unitaires. Les totaux se calculent automatiquement. Objectif : budget total < 500 €.',
+        headers: ['Fourniture', 'Quantité', 'Prix unitaire (€)', 'Total (€)'],
+        rows: [
+          ['Terreau universel (sac 50L)', 4, 8.90],
+          ['Engrais granulé (kg)', 2, 12.50],
+          ['Plants de tomates', 6, 2.80],
+          ['Tuteurs bambou (lot 10)', 1, 5.40],
+          ['Substrat fibres coco (sac)', 2, 7.20],
+          ['Pots biodégradables (lot 50)', 1, 9.90],
+        ],
+        totalLabel: 'Budget total',
+        goal: 500,
+      },
+      planning: {
+        title: '📅 Planning hebdomadaire',
+        hint: 'Saisis le nombre d\'heures par activité et par jour. Le total hebdomadaire se calcule automatiquement.',
+        headers: ['Activité', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Total h'],
+        rows: [
+          ['Entretien espaces verts', 2, 0, 2, 0, 2],
+          ['Taille et élagage', 0, 3, 0, 3, 0],
+          ['Arrosage et traitement', 1, 1, 1, 1, 1],
+          ['Nettoyage matériel', 0, 0, 1, 0, 1],
+          ['Réunion équipe', 0, 1, 0, 0, 0],
+        ],
+        totalLabel: 'Total par jour',
+        goal: null,
+      },
+      stock: {
+        title: '📦 Gestion de stock — Matériaux',
+        hint: 'Saisis les entrées et sorties. Le stock restant est calculé automatiquement. Alerte si stock < 5.',
+        headers: ['Matériau', 'Stock initial', 'Entrées', 'Sorties', 'Stock restant'],
+        rows: [
+          ['Terreau (sacs)', 20, 10, 8],
+          ['Engrais (kg)', 15, 5, 12],
+          ['Plants (unités)', 50, 30, 45],
+          ['Pots (unités)', 100, 0, 68],
+          ['Tuteurs (unités)', 40, 20, 35],
+        ],
+        totalLabel: 'Total matériaux',
+        goal: null,
+      },
+    };
+
+    let currentScenario = 'budget';
+
+    function renderScenario(key) {
+      const sc = scenarios[key];
+      const zone = document.getElementById('scenario-zone');
+
+      let tableHTML = `
+        <div class="hint">${sc.hint}</div>
+        <div style="overflow-x:auto;">
+        <table class="tableur">
+          <thead><tr>${sc.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+          <tbody id="tbody"></tbody>
+          <tfoot id="tfoot"></tfoot>
+        </table>
+        </div>`;
+
+      zone.innerHTML = `<div style="background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(45,106,79,.1);padding:28px;">
+        <p class="section-title" style="margin-bottom:20px;">${sc.title}</p>
+        ${tableHTML}
+        <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+          <button id="btn-verify" class="btn btn-primary">✓ Vérifier mes calculs</button>
+          <button id="btn-reset-sc" class="btn btn-secondary">↺ Réinitialiser</button>
+        </div>
+        <div id="verify-result" style="margin-top:16px;"></div>
+      </div>`;
+
+      buildTable(key);
+      document.getElementById('btn-verify').addEventListener('click', () => verify(key));
+      document.getElementById('btn-reset-sc').addEventListener('click', () => renderScenario(key));
+    }
+
+    function buildTable(key) {
+      const sc = scenarios[key];
+      const tbody = document.getElementById('tbody');
+      tbody.innerHTML = '';
+
+      sc.rows.forEach((row, ri) => {
+        const tr = document.createElement('tr');
+        row.forEach((cell, ci) => {
+          const td = document.createElement('td');
+          if (ci === 0) {
+            td.textContent = cell;
+          } else if (key === 'budget' && ci === 3) {
+            td.classList.add('cell-total');
+            td.id = `total-${ri}`;
+            td.textContent = '—';
+          } else if (key === 'planning' && ci === row.length) {
+            td.classList.add('cell-total');
+            td.id = `total-${ri}`;
+            td.textContent = '—';
+          } else if (key === 'stock' && ci === 4) {
+            td.classList.add('cell-total');
+            td.id = `total-${ri}`;
+            td.textContent = '—';
+          } else {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'cell-input';
+            input.value = cell;
+            input.min = 0;
+            input.dataset.row = ri;
+            input.dataset.col = ci;
+            input.addEventListener('input', () => autoCalc(key));
+            td.appendChild(input);
+          }
+          tr.appendChild(td);
+        });
+        if (key === 'planning') {
+          const tdT = document.createElement('td');
+          tdT.classList.add('cell-total');
+          tdT.id = `total-${ri}`;
+          tdT.textContent = '—';
+          tr.appendChild(tdT);
+        }
+        tbody.appendChild(tr);
+      });
+      autoCalc(key);
+    }
+
+    function getVal(row, col) {
+      const el = document.querySelector(`input[data-row="${row}"][data-col="${col}"]`);
+      return el ? (parseFloat(el.value) || 0) : 0;
+    }
+
+    function autoCalc(key) {
+      const sc = scenarios[key];
+      sc.rows.forEach((row, ri) => {
+        const el = document.getElementById(`total-${ri}`);
+        if (!el) return;
+        if (key === 'budget') {
+          const total = getVal(ri,1) * getVal(ri,2);
+          el.textContent = total.toFixed(2) + ' €';
+          el.style.color = total > 100 ? 'var(--terre)' : 'var(--vert)';
+        } else if (key === 'planning') {
+          let sum = 0;
+          for (let c = 1; c <= 5; c++) sum += getVal(ri, c);
+          el.textContent = sum + ' h';
+        } else if (key === 'stock') {
+          const stock = getVal(ri,1) + getVal(ri,2) - getVal(ri,3);
+          el.textContent = stock;
+          el.style.color = stock < 5 ? 'var(--terre)' : 'var(--vert)';
+          if (stock < 5) el.textContent += ' ⚠';
+        }
+      });
+    }
+
+    function verify(key) {
+      const sc = scenarios[key];
+      let errors = 0, ok = 0;
+      const res = document.getElementById('verify-result');
+
+      if (key === 'budget') {
+        sc.rows.forEach((row, ri) => {
+          const expected = getVal(ri,1) * getVal(ri,2);
+          const displayed = parseFloat(document.getElementById(`total-${ri}`)?.textContent) || 0;
+          if (Math.abs(expected - displayed) < 0.01) ok++; else errors++;
+        });
+      }
+
+      if (errors === 0) {
+        res.innerHTML = `<div style="background:var(--vert-pale);border-radius:12px;padding:16px;color:var(--vert);font-weight:500;">✅ Tous les calculs sont corrects ! Bien joué.</div>`;
+      } else {
+        res.innerHTML = `<div style="background:#FEF2F2;border-radius:12px;padding:16px;color:var(--terre);font-weight:500;">⚠ ${errors} erreur(s) détectée(s). Vérifie tes formules.</div>`;
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentScenario = btn.dataset.scenario;
+        renderScenario(currentScenario);
+      });
+    });
+
+    renderScenario(currentScenario);
+  </script>
+</body>
+</html>

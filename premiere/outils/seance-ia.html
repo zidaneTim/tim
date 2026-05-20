@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Découverte IA ACTIF — Première · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #6D28D9 0%, #2D6A4F 100%); }
+    .chat-container { background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(45,106,79,.1); overflow:hidden; }
+    .chat-messages { padding:24px; min-height:300px; max-height:480px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; }
+    .msg { max-width:80%; padding:14px 18px; border-radius:16px; font-size:0.9rem; line-height:1.6; }
+    .msg-user { background:var(--vert); color:#fff; align-self:flex-end; border-bottom-right-radius:4px; }
+    .msg-ia { background:#F1F5F9; color:var(--noir); align-self:flex-start; border-bottom-left-radius:4px; }
+    .msg-ia strong { color:var(--vert); }
+    .chat-input-row { display:flex; gap:8px; padding:16px; border-top:1px solid #F0EDE8; }
+    .chat-input { flex:1; padding:12px 16px; border:2px solid #E5E7EB; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:15px; outline:none; }
+    .chat-input:focus { border-color:var(--vert); }
+    .send-btn { background:var(--vert); color:#fff; border:none; border-radius:10px; padding:12px 20px; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500; font-size:15px; transition:background 0.15s; }
+    .send-btn:hover { background:#245A41; }
+    .send-btn:disabled { opacity:0.5; pointer-events:none; }
+    .starters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+    .starter-btn {
+      padding:8px 14px; border-radius:10px; border:1px solid #E5E7EB; background:#fff;
+      font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.15s;
+    }
+    .starter-btn:hover { border-color:var(--vert); background:var(--vert-pale); color:var(--vert); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Première</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil IA · Première SAPAT</p>
+      <h1>🧠 Découverte de l'IA</h1>
+      <p>Pose tes questions sur l'intelligence artificielle et explore ses usages professionnels.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">IA Claude</span>
+        <span class="hero-chip">Méthode ACTIF</span>
+        <span class="hero-chip">Première</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:760px;">
+
+      <section class="section">
+        <p class="section-title">Questions de démarrage</p>
+        <p class="section-sub">Clique sur une question pour l'envoyer directement.</p>
+        <div class="starters">
+          <button class="starter-btn">C'est quoi l'IA ?</button>
+          <button class="starter-btn">Comment ChatGPT génère du texte ?</button>
+          <button class="starter-btn">L'IA peut-elle remplacer mon futur métier ?</button>
+          <button class="starter-btn">Quels sont les risques de l'IA ?</button>
+          <button class="starter-btn">Comment l'IA est utilisée en agriculture ?</button>
+          <button class="starter-btn">C'est quoi les données d'entraînement ?</button>
+          <button class="starter-btn">L'IA a-t-elle des émotions ?</button>
+          <button class="starter-btn">Comment détecter un texte écrit par une IA ?</button>
+        </div>
+      </section>
+
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg msg-ia">
+            <strong>Claude :</strong> Bonjour ! Je suis une IA créée par Anthropic. Pose-moi toutes tes questions sur l'intelligence artificielle — son fonctionnement, ses usages, ses limites. On est là pour apprendre ensemble ! 🤖
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" class="chat-input" placeholder="Écris ta question ici…" />
+          <button id="send-btn" class="send-btn">Envoyer →</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <button id="btn-key" class="btn btn-secondary btn-sm">🔑 Clé API</button>
+        <button id="btn-clear" style="background:none;border:none;cursor:pointer;color:var(--gris);font-size:13px;font-family:'DM Sans',sans-serif;">🗑 Nouvelle conversation</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../../assets/js/claude-api.js"></script>
+  <script src="../../assets/js/utils.js"></script>
+  <script>
+    const SYSTEM = `Tu es un assistant pédagogique qui aide des élèves de Première Bac Pro SAPAT (lycée agricole) à découvrir l'intelligence artificielle.
+Tu réponds de façon simple, claire et engageante, avec des analogies concrètes liées à leur vie et au monde agricole/professionnel.
+Tes réponses font 3-5 phrases maximum. Tu encourages la curiosité et le sens critique.
+Tu ne génères jamais de contenu dangereux ou inapproprié.`;
+
+    const history = [];
+    const messagesEl = document.getElementById('chat-messages');
+    const inputEl = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function addMessage(role, text) {
+      const div = document.createElement('div');
+      div.className = `msg ${role === 'user' ? 'msg-user' : 'msg-ia'}`;
+      div.innerHTML = role === 'ia' ? `<strong>Claude :</strong> ${text}` : text;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    async function sendMessage(text) {
+      if (!text.trim()) return;
+      addMessage('user', text);
+      history.push({ role: 'user', content: text });
+      inputEl.value = '';
+      sendBtn.disabled = true;
+
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'msg msg-ia';
+      loadingDiv.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+      messagesEl.appendChild(loadingDiv);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      try {
+        if (!ClaudeAPI.hasKey()) {
+          loadingDiv.remove();
+          ClaudeAPI.showKeyModal(() => sendMessage(text));
+          return;
+        }
+        const result = await ClaudeAPI.ask({ system: SYSTEM, user: history.map(m => `${m.role === 'user' ? 'Élève' : 'IA'}: ${m.content}`).join('\n'), maxTokens: 600 });
+        history.push({ role: 'ia', content: result });
+        loadingDiv.remove();
+        addMessage('ia', result);
+      } catch (e) {
+        loadingDiv.remove();
+        if (e.message === 'INVALID_KEY') { ClaudeAPI.clearKey(); ClaudeAPI.showKeyModal(() => {}); }
+        else if (e.message !== 'NO_KEY') addMessage('ia', `⚠ Erreur : ${e.message}`);
+      } finally {
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
+    }
+
+    sendBtn.addEventListener('click', () => sendMessage(inputEl.value));
+    inputEl.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) sendMessage(inputEl.value); });
+
+    document.querySelectorAll('.starter-btn').forEach(btn => {
+      btn.addEventListener('click', () => sendMessage(btn.textContent));
+    });
+
+    document.getElementById('btn-key').addEventListener('click', () => ClaudeAPI.showKeyModal(() => {}));
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      history.length = 0;
+      messagesEl.innerHTML = '<div class="msg msg-ia"><strong>Claude :</strong> Nouvelle conversation ! Qu\'est-ce que tu veux savoir sur l\'IA ? 🤖</div>';
+    });
+  </script>
+</body>
+</html>

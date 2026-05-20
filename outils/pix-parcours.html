@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parcours Pix CRCN — Cours TIM · Xavier Grall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, #4338CA 0%, #2D6A4F 100%); }
+    .domains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .domain-card {
+      background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(45,106,79,0.08);
+      padding: 20px; border: 2px solid transparent; cursor: pointer; transition: all 0.15s;
+    }
+    .domain-card.selected { border-color: var(--vert); background: var(--vert-pale); }
+    .domain-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .domain-icon { font-size: 1.5rem; }
+    .domain-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .domain-num { font-size: 11px; color: var(--gris); font-weight: 500; letter-spacing: 0.05em; }
+    .level-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .level-btn {
+      padding: 4px 10px; border-radius: 8px; border: 1px solid #E5E7EB;
+      background: #fff; font-size: 12px; font-weight: 500; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all 0.12s;
+    }
+    .level-btn.active { background: var(--vert); color: #fff; border-color: var(--vert); }
+    .class-select-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .class-btn {
+      padding: 8px 18px; border-radius: 999px; border: 2px solid #E5E7EB;
+      background: #fff; font-size: 13px; font-weight: 500; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+    }
+    .class-btn.active { border-color: var(--vert); background: var(--vert-pale); color: var(--vert); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← Accueil</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Outil IA · Toutes classes</p>
+      <h1>🎯 Parcours Pix CRCN</h1>
+      <p>Indique ton niveau par domaine et obtiens un parcours personnalisé d'exercices Pix.</p>
+      <div class="hero-meta">
+        <span class="hero-chip">IA Claude</span>
+        <span class="hero-chip">5 domaines CRCN</span>
+        <span class="hero-chip">Toutes classes</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div style="max-width:900px;">
+
+      <section class="section">
+        <p class="section-title">1. Ta classe</p>
+        <div class="class-select-row">
+          <button class="class-btn active" data-class="Terminale">Terminale</button>
+          <button class="class-btn" data-class="Première">Première</button>
+          <button class="class-btn" data-class="Seconde">Seconde</button>
+          <button class="class-btn" data-class="CAPa 2">CAPa 2</button>
+          <button class="class-btn" data-class="CAPa 1">CAPa 1</button>
+          <button class="class-btn" data-class="3ème">3ème</button>
+          <button class="class-btn" data-class="4ème">4ème</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="section-title">2. Ton niveau par domaine CRCN</p>
+        <p class="section-sub">Clique sur le niveau qui correspond à ta maîtrise actuelle pour chaque domaine.</p>
+        <div class="domains-grid" id="domains-grid"></div>
+      </section>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;">
+        <button id="btn-parcours" class="btn btn-primary">Générer mon parcours →</button>
+        <button id="btn-key" class="btn btn-secondary btn-sm">🔑 Clé API</button>
+      </div>
+
+      <div id="output-zone"></div>
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <script src="../assets/js/claude-api.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script>
+    const domains = [
+      { id: 'd1', icon: '📚', name: 'Information et données', num: 'Domaine 1' },
+      { id: 'd2', icon: '💬', name: 'Communication et collaboration', num: 'Domaine 2' },
+      { id: 'd3', icon: '✏️', name: 'Création de contenu numérique', num: 'Domaine 3' },
+      { id: 'd4', icon: '🔒', name: 'Protection et sécurité', num: 'Domaine 4' },
+      { id: 'd5', icon: '💻', name: 'Environnement numérique', num: 'Domaine 5' },
+    ];
+
+    const levels = { d1:1, d2:1, d3:1, d4:1, d5:1 };
+    let selectedClass = 'Terminale';
+
+    /* Render domains */
+    const grid = document.getElementById('domains-grid');
+    domains.forEach(d => {
+      const card = document.createElement('div');
+      card.className = 'domain-card';
+      card.innerHTML = `
+        <div class="domain-header">
+          <span class="domain-icon">${d.icon}</span>
+          <div>
+            <p class="domain-num">${d.num}</p>
+            <p class="domain-name">${d.name}</p>
+          </div>
+        </div>
+        <div class="level-row">
+          ${[1,2,3,4,5,6,7,8].map(n => `<button class="level-btn${n===1?' active':''}" data-domain="${d.id}" data-level="${n}">Niv. ${n}</button>`).join('')}
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    grid.addEventListener('click', e => {
+      const btn = e.target.closest('.level-btn');
+      if (!btn) return;
+      const domain = btn.dataset.domain;
+      levels[domain] = parseInt(btn.dataset.level);
+      btn.closest('.level-row').querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+
+    /* Class select */
+    document.querySelectorAll('.class-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedClass = btn.dataset.class;
+      });
+    });
+
+    document.getElementById('btn-key').addEventListener('click', () => ClaudeAPI.showKeyModal(() => {}));
+
+    document.getElementById('btn-parcours').addEventListener('click', () => {
+      const domainSummary = domains.map(d => `${d.name} : niveau ${levels[d.id]}/8`).join('\n');
+
+      const system = `Tu es un conseiller pédagogique expert en compétences numériques et en Pix CRCN.
+Tu aides des élèves de lycée agricole à construire leur parcours d'entraînement sur la plateforme Pix.
+Donne des conseils concrets, motivants et adaptés au niveau de chaque élève.
+Réponds en français, de façon claire et structurée avec des emojis pour aérer.`;
+
+      const user = `Élève de classe : ${selectedClass}
+Niveaux CRCN actuels :
+${domainSummary}
+
+Génère un parcours Pix personnalisé avec :
+1. Les 2-3 domaines prioritaires à travailler (et pourquoi)
+2. Pour chaque domaine prioritaire : 3 exercices ou compétences Pix spécifiques à cibler
+3. Un objectif de niveau à atteindre d'ici la fin de l'année
+4. Une astuce de méthode pour progresser efficacement sur Pix`;
+
+      const zone = document.getElementById('output-zone');
+      zone.innerHTML = `<div class="ia-output"><div class="ia-output-header"><span class="ia-output-icon">🎯</span><span class="ia-output-label">Génération du parcours…</span></div><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+
+      ClaudeAPI.askWithKeyCheck({ system, user, maxTokens: 1500 }, text => {
+        zone.innerHTML = `
+          <div class="ia-output">
+            <div class="ia-output-header">
+              <span class="ia-output-icon">🎯</span>
+              <span class="ia-output-label">Ton parcours personnalisé</span>
+              <button class="copy-btn" id="copy-btn" style="margin-left:auto;background:none;border:none;cursor:pointer;color:var(--gris);font-size:13px;padding:4px 8px;border-radius:6px;font-family:'DM Sans',sans-serif;">📋 Copier</button>
+            </div>
+            <div class="ia-output-body">${TIM.md(text)}</div>
+          </div>`;
+        document.getElementById('copy-btn').addEventListener('click', async () => {
+          const ok = await TIM.copy(text);
+          document.getElementById('copy-btn').textContent = ok ? '✓ Copié !' : '❌';
+          setTimeout(() => { document.getElementById('copy-btn').textContent = '📋 Copier'; }, 2000);
+        });
+      }).catch(e => { if (e?.message !== 'NO_KEY') TIM.setError(zone, e.message); });
+    });
+  </script>
+</body>
+</html>
