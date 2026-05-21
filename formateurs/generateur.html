@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur d'activités — Formateurs TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/design-system.css">
+  <style>
+    /* ── Hero ── */
+    .hero { background: linear-gradient(135deg, #1D3557 0%, #457B9D 100%); }
+
+    /* ── Config bar ── */
+    .config-bar {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      background: #F0FDF4; border: 1px solid #BBF7D0;
+      border-radius: 12px; padding: 12px 16px; margin-bottom: 24px;
+      align-items: center;
+    }
+    .config-bar-title { font-size: 0.8rem; font-weight: 600; color: #166534; flex-shrink:0; }
+    .key-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: #fff; border-radius: 8px; padding: 6px 12px;
+      border: 1px solid #e5e7eb; font-size: 0.78rem; cursor: pointer;
+      transition: border-color .2s;
+    }
+    .key-chip:hover { border-color: #2D6A4F; }
+    .key-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; }
+    .key-chip .dot.ok { background: #22c55e; }
+    .key-chip .dot.warn { background: #f59e0b; }
+
+    /* ── Form section ── */
+    .gen-form { background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,.07); padding:28px 32px; margin-bottom:20px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+    .form-row.triple { grid-template-columns:1fr 1fr 1fr; }
+    @media(max-width:640px) { .form-row, .form-row.triple { grid-template-columns:1fr; } }
+    .field-label { display:block; font-size:0.82rem; font-weight:600; color:#374151; margin-bottom:6px; }
+    .field-select, .field-input, .field-textarea {
+      width:100%; box-sizing:border-box; padding:10px 14px;
+      border:2px solid #e5e7eb; border-radius:10px; font-size:0.88rem;
+      font-family:'DM Sans',sans-serif; background:#fff; color:#111827;
+      transition:border-color .2s; outline:none;
+    }
+    .field-select:focus, .field-input:focus, .field-textarea:focus { border-color:#2D6A4F; }
+    .field-select:disabled, .field-input:disabled { background:#f9fafb; color:#9ca3af; cursor:not-allowed; }
+    .field-textarea { resize:vertical; min-height:90px; }
+
+    /* ── Type activité chips ── */
+    .type-chips { display:flex; gap:8px; flex-wrap:wrap; }
+    .type-chip {
+      padding:7px 14px; border-radius:20px; border:2px solid #e5e7eb;
+      background:#fff; font-size:0.82rem; cursor:pointer; transition:.2s;
+    }
+    .type-chip.active { background:#2D6A4F; color:#fff; border-color:#2D6A4F; }
+
+    /* ── Info card ── */
+    .info-card {
+      background:#F0FDF4; border:1px solid #BBF7D0; border-radius:12px;
+      padding:16px 20px; margin-bottom:20px; display:none;
+    }
+    .info-card.visible { display:block; }
+    .info-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:0.92rem; color:#166534; margin-bottom:10px; }
+    .info-criteres { list-style:none; padding:0; margin:8px 0 0; }
+    .info-criteres li { font-size:0.82rem; color:#374151; padding:3px 0; }
+    .info-criteres li::before { content:'✅ '; }
+    .info-outils { font-size:0.8rem; color:#6b7280; margin-top:8px; }
+
+    /* ── Generate button ── */
+    .btn-generate {
+      width:100%; padding:16px; background:linear-gradient(135deg,#2D6A4F,#40916C);
+      color:#fff; border:none; border-radius:12px; font-family:'Syne',sans-serif;
+      font-weight:700; font-size:1.05rem; cursor:pointer; transition:.2s;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .btn-generate:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(45,106,79,.35); }
+    .btn-generate:disabled { background:#9ca3af; cursor:not-allowed; transform:none; box-shadow:none; }
+
+    /* ── Preview ── */
+    .preview-section { display:none; }
+    .preview-section.visible { display:block; }
+    .preview-card {
+      background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,.07);
+      padding:28px 32px; margin-bottom:16px;
+    }
+    .preview-header {
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:20px; flex-wrap:wrap; gap:12px;
+    }
+    .preview-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem; }
+
+    /* ── Rendered activity ── */
+    #rendered-activity {
+      border:2px solid #e5e7eb; border-radius:12px;
+      padding:24px; font-size:0.88rem; line-height:1.7;
+      max-height:500px; overflow-y:auto; background:#fafafa;
+    }
+    #rendered-activity h1, #rendered-activity h2, #rendered-activity h3 {
+      font-family:'Syne',sans-serif; color:#111827; margin-top:1.2em;
+    }
+    #rendered-activity h2 { font-size:1rem; border-bottom:2px solid #e5e7eb; padding-bottom:4px; }
+    #rendered-activity h3 { font-size:0.9rem; color:#2D6A4F; }
+    #rendered-activity ul { padding-left:20px; }
+    #rendered-activity li { margin-bottom:4px; }
+    #rendered-activity strong { color:#111827; }
+    #rendered-activity table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+    #rendered-activity th { background:#f3f4f6; padding:8px 10px; border:1px solid #e5e7eb; }
+    #rendered-activity td { padding:7px 10px; border:1px solid #e5e7eb; }
+
+    /* ── Edit raw ── */
+    #raw-edit {
+      display:none; width:100%; box-sizing:border-box;
+      min-height:400px; border:2px solid #e5e7eb; border-radius:12px;
+      padding:16px; font-size:0.84rem; font-family:monospace;
+      background:#f9fafb; resize:vertical;
+    }
+
+    /* ── Action buttons ── */
+    .action-bar {
+      display:grid; grid-template-columns:1fr 1fr 1fr;
+      gap:12px; margin-bottom:32px;
+    }
+    @media(max-width:640px) { .action-bar { grid-template-columns:1fr; } }
+    .btn-action {
+      padding:12px 16px; border-radius:12px; border:2px solid #e5e7eb;
+      background:#fff; font-size:0.85rem; font-weight:600;
+      cursor:pointer; transition:.2s; display:flex; align-items:center;
+      justify-content:center; gap:8px; color:#374151;
+    }
+    .btn-action:hover { border-color:#2D6A4F; color:#2D6A4F; }
+    .btn-action.primary { background:#2D6A4F; color:#fff; border-color:#2D6A4F; }
+    .btn-action.primary:hover { background:#1B4332; }
+    .btn-action:disabled { opacity:0.4; cursor:not-allowed; }
+
+    /* ── Loading dots ── */
+    .loading-wrap { text-align:center; padding:40px 20px; }
+    .loading-dots span {
+      display:inline-block; width:8px; height:8px; border-radius:50%;
+      background:#2D6A4F; margin:0 3px; animation:dot-bounce .8s infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay:.15s; }
+    .loading-dots span:nth-child(3) { animation-delay:.30s; }
+    @keyframes dot-bounce { 0%,80%,100%{transform:scale(.6)} 40%{transform:scale(1)} }
+
+    /* ── Toast ── */
+    .toast {
+      position:fixed; bottom:24px; right:24px; background:#111827; color:#fff;
+      padding:12px 20px; border-radius:10px; font-size:0.85rem; z-index:9998;
+      transform:translateY(100px); opacity:0; transition:.3s; pointer-events:none;
+    }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .toast.success { background:#166534; }
+    .toast.error { background:#991b1b; }
+
+    /* ── Success banner ── */
+    .success-banner {
+      background:#F0FDF4; border:1px solid #BBF7D0; border-radius:12px;
+      padding:14px 18px; margin-bottom:12px; font-size:0.85rem; color:#166534;
+      display:none; align-items:center; gap:10px;
+    }
+    .success-banner.show { display:flex; }
+    .success-banner a { color:#166534; font-weight:600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="back-link">← Formateurs</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Espace Formateurs · Outil IA</p>
+      <h1>✨ Générateur d'activités pédagogiques</h1>
+      <p>Sélectionnez la classe, le module et la capacité. L'IA génère l'activité complète, la range sur GitHub et l'enregistre dans Notion.</p>
+      <div class="hero-meta">
+        <span class="hero-chip badge-ccf">IA Claude</span>
+        <span class="hero-chip">GitHub Auto-push</span>
+        <span class="hero-chip">Notion</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- ── Configuration des clés ── -->
+    <div class="config-bar">
+      <span class="config-bar-title">🔑 Clés API :</span>
+      <div class="key-chip" id="chip-claude" onclick="configClaude()">
+        <span class="dot" id="dot-claude"></span>
+        <span>Claude API</span>
+      </div>
+      <div class="key-chip" id="chip-github" onclick="configGitHub()">
+        <span class="dot" id="dot-github"></span>
+        <span>GitHub Token</span>
+      </div>
+      <div class="key-chip" id="chip-notion" onclick="configNotion()">
+        <span class="dot" id="dot-notion"></span>
+        <span>Notion</span>
+      </div>
+      <span style="margin-left:auto;font-size:0.75rem;color:#6b7280">Tout est stocké localement dans votre navigateur</span>
+    </div>
+
+    <!-- ── Formulaire de génération ── -->
+    <div class="gen-form">
+      <p class="section-title" style="margin-bottom:20px">Paramètres de l'activité</p>
+
+      <div class="form-row triple">
+        <div>
+          <label class="field-label" for="sel-classe">📚 Classe</label>
+          <select id="sel-classe" class="field-select" onchange="onClasseChange()">
+            <option value="">— Choisir —</option>
+            <option value="premiere">Première SAPAT (Bac Pro)</option>
+            <option value="terminale">Terminale SAPAT (Bac Pro)</option>
+            <option value="seconde">Seconde SAPAT (Bac Pro)</option>
+            <option value="capa2">CAPa 2 SAPVER</option>
+            <option value="capa1">CAPa 1 SAPVER</option>
+            <option value="3a">3ème A (POP)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="sel-module">📦 Module</label>
+          <select id="sel-module" class="field-select" onchange="onModuleChange()" disabled>
+            <option value="">— Choisir la classe d'abord —</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="sel-cap">🎯 Capacité</label>
+          <select id="sel-cap" class="field-select" onchange="onCapaciteChange()" disabled>
+            <option value="">— Choisir le module d'abord —</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label class="field-label" for="inp-theme">🌍 Thème / Contexte professionnel</label>
+          <input id="inp-theme" class="field-input" type="text"
+            placeholder="Ex : qualité de l'air en Bretagne, accompagnement d'une personne âgée..."
+            oninput="updateThemeExamples()">
+          <div id="theme-examples" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"></div>
+        </div>
+        <div>
+          <label class="field-label" for="sel-type">🔖 Type d'activité</label>
+          <div class="type-chips" id="type-chips">
+            <span class="type-chip active" onclick="setType(this, 'découverte')">Découverte</span>
+            <span class="type-chip" onclick="setType(this, 'exercice guidé')">Exercice guidé</span>
+            <span class="type-chip" onclick="setType(this, 'mise en situation CCF')">Mise en situation CCF</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row" id="row-territoire" style="display:none">
+        <div>
+          <label class="field-label" for="sel-territoire">📍 Territoire (optionnel)</label>
+          <select id="sel-territoire" class="field-select">
+            <option value="">Bretagne (générique)</option>
+            <option value="Côtes-d'Armor (22)">Côtes-d'Armor (22)</option>
+            <option value="Finistère (29)">Finistère (29)</option>
+            <option value="Ille-et-Vilaine (35)">Ille-et-Vilaine (35)</option>
+            <option value="Morbihan (56)">Morbihan (56)</option>
+            <option value="Loudéac et son territoire">Loudéac et son territoire</option>
+            <option value="Pays du Centre Bretagne">Pays du Centre Bretagne</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="sel-duree">⏱️ Durée indicative</label>
+          <select id="sel-duree" class="field-select">
+            <option value="45">45 minutes</option>
+            <option value="60" selected>1 heure</option>
+            <option value="90">1h30</option>
+            <option value="120">2 heures</option>
+            <option value="180">2 séances (≈3h)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Info capacité -->
+      <div class="info-card" id="info-cap">
+        <div class="info-card-title" id="info-cap-label">—</div>
+        <div id="info-cap-module" style="font-size:0.8rem;color:#6b7280;margin-bottom:8px">—</div>
+        <ul class="info-criteres" id="info-criteres"></ul>
+        <div class="info-outils" id="info-outils"></div>
+      </div>
+
+      <!-- Bouton générer -->
+      <button class="btn-generate" id="btn-gen" onclick="generateActivity()" disabled>
+        <span>✨</span> Générer l'activité
+      </button>
+    </div>
+
+    <!-- ── Zone de prévisualisation ── -->
+    <div class="preview-section" id="preview-section">
+
+      <!-- Bandeaux de succès (push) -->
+      <div class="success-banner" id="banner-github">
+        🐙 Activité enregistrée sur GitHub : <a id="github-link" href="#" target="_blank">Voir le fichier →</a>
+      </div>
+      <div class="success-banner" id="banner-notion">
+        📝 Activité ajoutée dans Notion : <a id="notion-link" href="#" target="_blank">Ouvrir dans Notion →</a>
+      </div>
+
+      <div class="preview-card">
+        <div class="preview-header">
+          <span class="preview-title">📄 Aperçu de l'activité générée</span>
+          <div style="display:flex;gap:8px">
+            <button class="btn-action" onclick="toggleEdit()" id="btn-toggle-edit">✏️ Modifier</button>
+            <button class="btn-action" onclick="regenerate()">🔄 Régénérer</button>
+          </div>
+        </div>
+
+        <div id="rendered-activity"><!-- contenu injecté --></div>
+        <textarea id="raw-edit" oninput="onRawEdit()"></textarea>
+      </div>
+
+      <!-- Boutons d'export -->
+      <div class="action-bar">
+        <button class="btn-action" onclick="downloadHTML()">
+          📥 Télécharger HTML
+        </button>
+        <button class="btn-action primary" id="btn-github" onclick="pushGitHub()">
+          🐙 Enregistrer sur GitHub
+        </button>
+        <button class="btn-action" id="btn-notion" onclick="pushNotion()">
+          📝 Envoyer dans Notion
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026</footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/claude-api.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/github-api.js"></script>
+  <script src="../assets/js/notion-api.js"></script>
+  <script>
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  ÉTAT GLOBAL
+  // ══════════════════════════════════════════════════════════════════════════════
+  let PROMPTS = {};
+  let REFS    = {};
+  let currentPromptKey  = null; // { classe, module, cap }
+  let currentPromptData = null;
+  let selectedType      = 'découverte';
+  let generatedContent  = '';   // texte markdown généré
+  let generatedHTML     = '';   // HTML final pour téléchargement / GitHub
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  INIT
+  // ══════════════════════════════════════════════════════════════════════════════
+  async function init() {
+    try {
+      const [p, r] = await Promise.all([
+        fetch('../assets/data/prompts.json').then(r => r.json()),
+        fetch('../assets/data/referentiels.json').then(r => r.json())
+      ]);
+      PROMPTS = p;
+      REFS    = r;
+    } catch (e) {
+      console.warn('Impossible de charger les données :', e);
+    }
+    updateKeyStatus();
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  STATUS DES CLÉS
+  // ══════════════════════════════════════════════════════════════════════════════
+  function updateKeyStatus() {
+    setDot('dot-claude',  ClaudeAPI.hasKey());
+    setDot('dot-github',  GitHubAPI.hasToken());
+    setDot('dot-notion',  NotionAPI.hasToken());
+  }
+  function setDot(id, ok) {
+    const d = document.getElementById(id);
+    if (d) { d.className = 'dot ' + (ok ? 'ok' : 'warn'); }
+  }
+
+  function configClaude()  { ClaudeAPI.showKeyModal(() => updateKeyStatus()); }
+  function configGitHub()  { GitHubAPI.showTokenModal(() => updateKeyStatus()); }
+  function configNotion()  { NotionAPI.showConfigModal(() => updateKeyStatus()); }
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  CASCADE SÉLECTEURS
+  // ══════════════════════════════════════════════════════════════════════════════
+  function onClasseChange() {
+    const classe = document.getElementById('sel-classe').value;
+    const modSel = document.getElementById('sel-module');
+    const capSel = document.getElementById('sel-cap');
+
+    modSel.innerHTML = '<option value="">— Choisir —</option>';
+    capSel.innerHTML  = '<option value="">— Choisir le module —</option>';
+    modSel.disabled = !classe;
+    capSel.disabled  = true;
+
+    document.getElementById('info-cap').classList.remove('visible');
+    document.getElementById('btn-gen').disabled = true;
+
+    if (!classe || !PROMPTS[classe]) return;
+
+    const modules = PROMPTS[classe];
+    Object.entries(modules).forEach(([modKey, modVal]) => {
+      const label = REFS.classes[classe]?.modules[modKey]?.label || modKey;
+      const opt = document.createElement('option');
+      opt.value = modKey;
+      opt.textContent = label;
+      modSel.appendChild(opt);
+    });
+    modSel.disabled = false;
+  }
+
+  function onModuleChange() {
+    const classe = document.getElementById('sel-classe').value;
+    const mod    = document.getElementById('sel-module').value;
+    const capSel = document.getElementById('sel-cap');
+
+    capSel.innerHTML = '<option value="">— Choisir —</option>';
+    capSel.disabled  = !mod;
+    document.getElementById('info-cap').classList.remove('visible');
+    document.getElementById('btn-gen').disabled = true;
+
+    if (!mod || !PROMPTS[classe]?.[mod]) return;
+
+    Object.entries(PROMPTS[classe][mod]).forEach(([capKey, capVal]) => {
+      const opt = document.createElement('option');
+      opt.value = capKey;
+      opt.textContent = capVal.label || capKey;
+      capSel.appendChild(opt);
+    });
+    capSel.disabled = false;
+  }
+
+  function onCapaciteChange() {
+    const classe = document.getElementById('sel-classe').value;
+    const mod    = document.getElementById('sel-module').value;
+    const cap    = document.getElementById('sel-cap').value;
+
+    document.getElementById('info-cap').classList.remove('visible');
+    document.getElementById('btn-gen').disabled = true;
+
+    if (!cap) return;
+
+    const data = PROMPTS[classe]?.[mod]?.[cap];
+    if (!data) return;
+
+    currentPromptKey  = { classe, module: mod, cap };
+    currentPromptData = data;
+
+    // Affiche la carte info
+    document.getElementById('info-cap-label').textContent = data.label || cap;
+    document.getElementById('info-cap-module').textContent = data.module_full || '';
+
+    const critList = document.getElementById('info-criteres');
+    critList.innerHTML = (data.criteres || []).map(c => `<li>${c}</li>`).join('');
+
+    document.getElementById('info-outils').textContent =
+      data.outils ? '🛠️ Outils : ' + data.outils.join(' · ') : '';
+
+    document.getElementById('info-cap').classList.add('visible');
+
+    // Exemples de thèmes
+    const themeDiv = document.getElementById('theme-examples');
+    const themes = data.themes || [];
+    if (themes.length) {
+      const exemples = REFS.themes_mg1?.filter(t => themes.includes(t.label)) || [];
+      themeDiv.innerHTML = exemples.map(t =>
+        exemples[0]?.exemples_bretagne?.slice(0,2).map(ex =>
+          `<span class="type-chip" style="cursor:pointer;font-size:0.75rem" onclick="setThemeExample('${ex}')">${t.emoji} ${ex.slice(0,35)}…</span>`
+        ).join('')
+      ).join('');
+    } else { themeDiv.innerHTML = ''; }
+
+    // Affiche le sélecteur territoire si C1.2
+    const showTerr = (cap === 'c1-2' || cap === 'eg1-data');
+    document.getElementById('row-territoire').style.display = showTerr ? 'grid' : 'none';
+
+    // Types d'activités disponibles
+    const chips = document.getElementById('type-chips');
+    const types = data.type_activite || ['découverte', 'exercice guidé'];
+    chips.innerHTML = types.map((t,i) =>
+      `<span class="type-chip ${i===0?'active':''}" onclick="setType(this,'${t}')">${t}</span>`
+    ).join('');
+    selectedType = types[0];
+
+    document.getElementById('btn-gen').disabled = false;
+  }
+
+  function setThemeExample(ex) {
+    document.getElementById('inp-theme').value = ex;
+  }
+
+  function setType(el, type) {
+    document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedType = type;
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  GÉNÉRATION
+  // ══════════════════════════════════════════════════════════════════════════════
+  async function generateActivity() {
+    if (!currentPromptData) return;
+
+    const theme     = document.getElementById('inp-theme').value.trim();
+    const territoire= document.getElementById('sel-territoire')?.value || 'Bretagne';
+    const duree     = document.getElementById('sel-duree')?.value || '60';
+
+    if (!theme) {
+      showToast('⚠️ Entrez un thème ou contexte professionnel', 'error');
+      document.getElementById('inp-theme').focus();
+      return;
+    }
+
+    // Check Claude API key
+    if (!ClaudeAPI.hasKey()) {
+      ClaudeAPI.showKeyModal(generateActivity);
+      return;
+    }
+
+    // Prépare l'UI
+    const btn = document.getElementById('btn-gen');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+
+    document.getElementById('preview-section').classList.remove('visible');
+
+    try {
+      // Construction du prompt
+      const promptText = buildPrompt(theme, territoire, duree);
+
+      // Appel Claude
+      const response = await ClaudeAPI.ask({
+        system: currentPromptData.systeme || 'Tu es un expert en pédagogie professionnelle agricole.',
+        user:   promptText,
+        model:  'claude-haiku-4-5',
+        maxTokens: 3000
+      });
+
+      generatedContent = response;
+
+      // Construit le HTML final
+      generatedHTML = buildActivityHTML(theme, territoire, duree);
+
+      // Affiche la prévisualisation
+      renderPreview();
+      document.getElementById('preview-section').classList.add('visible');
+
+      // Reset banners
+      document.getElementById('banner-github').classList.remove('show');
+      document.getElementById('banner-notion').classList.remove('show');
+
+      showToast('✅ Activité générée avec succès !', 'success');
+
+    } catch (e) {
+      showToast('❌ Erreur : ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span>✨</span> Générer l\'activité';
+    }
+  }
+
+  function buildPrompt(theme, territoire, duree) {
+    if (!currentPromptData?.prompt) return `Génère une activité pédagogique sur le thème : ${theme}`;
+
+    return currentPromptData.prompt
+      .replace(/\[THEME\]/g, theme)
+      .replace(/\[TERRITOIRE\]/g, territoire || 'Bretagne')
+      .replace(/\[TYPE\]/g, selectedType)
+      .replace(/\[DUREE\]/g, duree + ' minutes')
+      + `\n\nType d'activité souhaité : ${selectedType}\nDurée : ${duree} minutes\nTerritoire : ${territoire || 'Bretagne'}`;
+  }
+
+  function buildActivityHTML(theme, territoire, duree) {
+    const classe     = document.getElementById('sel-classe').value;
+    const cap        = document.getElementById('sel-cap').value;
+    const classeInfo = REFS.classes?.[classe];
+    const couleur    = classeInfo?.couleur || '#2D6A4F';
+    const classeLabel= classeInfo?.label || classe;
+    const capLabel   = currentPromptData?.label || cap;
+    const date       = new Date().toLocaleDateString('fr-FR', { year:'numeric', month:'long', day:'numeric' });
+    const slug       = GitHubAPI.slugify(theme);
+
+    // Convertit le markdown en HTML basique
+    const htmlContent = markdownToHTML(generatedContent);
+
+    return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${capLabel} — ${theme} · Cours TIM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <style>
+    .hero { background: linear-gradient(135deg, ${couleur} 0%, ${couleur}cc 100%); }
+    .content-card { background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,.08); padding:32px; margin-bottom:24px; }
+    .critere-table { width:100%; border-collapse:collapse; font-size:0.875rem; }
+    .critere-table th { background:#F3F4F6; padding:10px 14px; border:1px solid #E5E7EB; text-align:left; }
+    .critere-table td { padding:10px 14px; border:1px solid #E5E7EB; }
+    .meta-chip { display:inline-block; background:rgba(255,255,255,.25); border-radius:20px; padding:5px 14px; font-size:0.8rem; margin:3px; }
+    ol li, ul li { margin-bottom:8px; line-height:1.6; }
+    h3 { font-family:'Syne',sans-serif; color:#1D3557; margin-top:1.4em; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="back-link">← ${classeLabel}</a>
+      <div class="header-divider"></div>
+      <span class="logo-badge">XG</span>
+      <span class="logo-text">Cours TIM / Xavier Grall · Loudéac</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">${classeLabel} · ${currentPromptData?.module_full || ''}</p>
+      <h1>${capLabel}</h1>
+      <p>Activité générée sur le thème : <strong>${theme}</strong>${territoire ? ' · ' + territoire : ''}</p>
+      <div class="hero-meta">
+        <span class="hero-chip">${selectedType}</span>
+        <span class="hero-chip">${duree} min</span>
+        <span class="hero-chip">${date}</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="content-card">
+      ${htmlContent}
+    </div>
+  </main>
+
+  <footer>Lycée Xavier Grall · Loudéac · M. Zidane · 2025–2026 — Activité générée par IA le ${date}</footer>
+</body>
+</html>`;
+  }
+
+  // Markdown → HTML (rendu preview + export)
+  function markdownToHTML(md) {
+    if (!md) return '';
+    return md
+      .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+      .replace(/^## (.+)$/gm, '<h2 style="font-family:\'Syne\',sans-serif;border-bottom:2px solid #e5e7eb;padding-bottom:6px;margin-top:1.4em">$2</h2>'.replace('$2','$1'))
+      .replace(/^# (.+)$/gm, '<h2 style="font-family:\'Syne\',sans-serif;font-size:1.15rem">$1</h2>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/`(.+?)`/g, '<code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:0.85em">$1</code>')
+      .replace(/^- (.+)$/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>\n?)+/g, s => '<ul>' + s + '</ul>')
+      .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/^(?!<[hul]|<\/[hul])(.+)$/gm, s => s.startsWith('<') ? s : '<p>' + s + '</p>');
+  }
+
+  function renderPreview() {
+    const el = document.getElementById('rendered-activity');
+    el.innerHTML = markdownToHTML(generatedContent);
+    document.getElementById('raw-edit').value = generatedContent;
+  }
+
+  function toggleEdit() {
+    const raw  = document.getElementById('raw-edit');
+    const rend = document.getElementById('rendered-activity');
+    const btn  = document.getElementById('btn-toggle-edit');
+    if (raw.style.display === 'none' || !raw.style.display) {
+      raw.style.display    = 'block';
+      rend.style.display   = 'none';
+      btn.textContent      = '👁️ Aperçu';
+    } else {
+      raw.style.display    = 'none';
+      rend.style.display   = 'block';
+      btn.textContent      = '✏️ Modifier';
+      generatedContent = raw.value;
+      generatedHTML = buildActivityHTML(
+        document.getElementById('inp-theme').value,
+        document.getElementById('sel-territoire')?.value || 'Bretagne',
+        document.getElementById('sel-duree')?.value || '60'
+      );
+      renderPreview();
+    }
+  }
+
+  function onRawEdit() {
+    generatedContent = document.getElementById('raw-edit').value;
+  }
+
+  function regenerate() {
+    generateActivity();
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  EXPORT
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // 1. Téléchargement HTML
+  function downloadHTML() {
+    const theme   = document.getElementById('inp-theme').value;
+    const classe  = document.getElementById('sel-classe').value;
+    const cap     = document.getElementById('sel-cap').value;
+    const date    = new Date().toISOString().slice(0,10);
+    const slug    = GitHubAPI.slugify(theme);
+    const fname   = `${cap}-${slug}-${date}.html`;
+
+    const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = fname; a.click();
+    URL.revokeObjectURL(url);
+    showToast('📥 Fichier téléchargé : ' + fname, 'success');
+  }
+
+  // 2. Push GitHub
+  async function pushGitHub() {
+    const theme  = document.getElementById('inp-theme').value.trim();
+    const classe = document.getElementById('sel-classe').value;
+    const cap    = document.getElementById('sel-cap').value;
+
+    if (!generatedHTML) { showToast('⚠️ Générez d\'abord une activité', 'error'); return; }
+
+    const path   = GitHubAPI.buildPath(classe, cap, theme);
+    const msg    = `✨ Activité ${cap} — ${theme} (${classe}) — généré par IA`;
+
+    const btn = document.getElementById('btn-github');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Push en cours…';
+
+    try {
+      await GitHubAPI.pushWithCheck(path, generatedHTML, msg, (result) => {
+        updateKeyStatus();
+        document.getElementById('github-link').href = result.url;
+        document.getElementById('banner-github').classList.add('show');
+        showToast('🐙 Push GitHub réussi !', 'success');
+      });
+    } catch (e) {
+      showToast('❌ GitHub : ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🐙 Enregistrer sur GitHub';
+    }
+  }
+
+  // 3. Push Notion
+  async function pushNotion() {
+    const theme  = document.getElementById('inp-theme').value.trim();
+    const classe = document.getElementById('sel-classe').value;
+    const cap    = document.getElementById('sel-cap').value;
+    const duree  = document.getElementById('sel-duree')?.value || '60';
+
+    if (!generatedContent) { showToast('⚠️ Générez d\'abord une activité', 'error'); return; }
+
+    const titre = `${currentPromptData?.label || cap} — ${theme} (${document.getElementById('sel-classe').options[document.getElementById('sel-classe').selectedIndex].text})`;
+
+    const btn = document.getElementById('btn-notion');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Envoi Notion…';
+
+    try {
+      await NotionAPI.pushWithCheck({
+        titre,
+        classe,
+        capacite: cap,
+        theme,
+        contenuMarkdown: generatedContent,
+        dureeMin: duree,
+        motsCles: `${classe} ${cap} ${theme} ${selectedType}`
+      }, (result) => {
+        updateKeyStatus();
+        document.getElementById('notion-link').href = result.url;
+        document.getElementById('banner-notion').classList.add('show');
+        showToast('📝 Ajouté dans Notion !', 'success');
+      });
+    } catch (e) {
+      // Si pas de proxy : fallback copier-coller
+      if (e.message.includes('Proxy Notion non configuré')) {
+        fallbackCopyNotion(titre, theme, classe, cap);
+      } else {
+        showToast('❌ Notion : ' + e.message, 'error');
+      }
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '📝 Envoyer dans Notion';
+    }
+  }
+
+  // Fallback si pas de proxy Cloudflare
+  function fallbackCopyNotion(titre, theme, classe, cap) {
+    navigator.clipboard.writeText(generatedContent).then(() => {
+      showToast('📋 Contenu copié dans le presse-papiers !', 'success');
+      // Ouvre Notion
+      window.open('https://www.notion.so/91467c84427e480980759277c422345b', '_blank');
+      alert(`✅ Contenu copié !\n\nCollez-le dans votre base Notion "Ressources pédagogiques".\n\nTitre suggéré : ${titre}\n\n💡 Pour automatiser : configurez le proxy Cloudflare (bouton ⚙️ Notion ci-haut).`);
+    });
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  UTILITAIRES UI
+  // ══════════════════════════════════════════════════════════════════════════════
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + (type || '');
+    setTimeout(() => { t.className = 'toast'; }, 3500);
+  }
+
+  function updateThemeExamples() {
+    // Petite aide contextuelle selon la saisie — future amélioration
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  //  LANCEMENT
+  // ══════════════════════════════════════════════════════════════════════════════
+  init();
+  </script>
+</body>
+</html>

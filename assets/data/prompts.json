@@ -1,0 +1,218 @@
+{
+  "premiere": {
+    "mg1": {
+      "c1-2": {
+        "label": "C1.2 — Étudier un phénomène social ou professionnel à l'aide de données",
+        "module_full": "MG1 — Construction d'un raisonnement scientifique autour des questions du monde actuel",
+        "discipline": "TIM + Mathématiques",
+        "duree_indicative": "2 séances de 1h",
+        "themes": ["Santé", "Alimentation", "Eau", "Énergie", "Biodiversité"],
+        "type_activite": ["découverte", "exercice guidé", "mise en situation autonome"],
+        "outils": ["Excel / LibreOffice Calc", "Google MyMaps", "data.gouv.fr", "convertisseur KML scuttemery.fr"],
+        "criteres": [
+          "Analyse du contexte et de la problématique",
+          "Traitement des données adapté au contexte et à la problématique étudiée",
+          "Exposition des données adaptée au contexte et représentative de la problématique étudiée"
+        ],
+        "systeme": "Agis comme un expert en pédagogie active appliquée au Bac Pro SAPAT (Services aux personnes et aux territoires), spécialisé dans la conception d'activités autonomes basées sur l'analyse de données environnementales et sociales. Tu maîtrises parfaitement la capacité C1.2 du module MG1 et ses trois critères d'évaluation.",
+        "prompt": "Public : élèves de Première Bac Pro SAPAT, travaillant en autonomie complète.\n\nSupport de départ : données ouvertes issues de data.gouv.fr, agreste.agriculture.gouv.fr, INSEE ou data.bretagne.bzh.\n\nContrainte technique :\n- Utilisation exclusive d'Excel pour le traitement des données (tri, formules, graphiques, tableaux croisés dynamiques).\n- Utilisation de Google MyMaps pour la cartographie, avec fichier KML généré via https://scuttemery.fr/converter\n\nAction :\nRecherche sur data.gouv.fr ou ses équivalents une base de données pertinente pour le thème [THEME] en Bretagne ou en France. Identifie le nom du jeu de données, son URL de téléchargement, les colonnes principales et les données disponibles.\n\nConçois ensuite une activité pédagogique clé en main adaptée à ce thème et à une problématique territoriale plausible en Bretagne.\n\nTonalité : pédagogique, claire et rassurante, pour accompagner des élèves peu expérimentés dans la manipulation de données et d'outils numériques.\n\nFormat obligatoire — 5 étapes :\n\n1. 📍 MISE EN SITUATION CONTEXTUALISÉE\nContexte professionnel réaliste lié au thème [THEME] en Bretagne. Présente la structure, le rôle du SAPAT, les enjeux locaux. Donne envie de résoudre le problème.\n\n2. ❓ PROBLÉMATIQUE CLAIRE ET TERRITORIALISÉE\nFormule une question centrale précise, ancrée dans la réalité bretonne. Exemple : « Dans quels territoires bretons l'accès à [thème] est-il le plus problématique ? »\n\n3. 🔧 ÉTAPES TECHNIQUES DÉTAILLÉES\nGuide pas à pas :\n  a) Téléchargement et découverte du fichier (URL exacte, format CSV/XLSX)\n  b) Nettoyage et tri des données dans Excel (colonnes à garder, filtres à appliquer)\n  c) Calculs statistiques (SOMME, MOYENNE, MAX, MIN, NB.SI...)\n  d) Création de 2 graphiques adaptés (barres, camembert, courbe...)\n  e) Cartographie : conversion KML via scuttemery.fr + import Google MyMaps\n\n4. 📊 PRODUCTION FINALE\nDéfinit clairement le livrable attendu : rapport numérique (1 page) ou infographie ou diaporama, destiné à un public local (mairie, association, structure SAPAT). Précise le format et les éléments obligatoires.\n\n5. ✅ CRITÈRES D'ÉVALUATION\nPrésente les 3 critères officiels de la C1.2 sous forme de tableau avec indicateurs concrets :\n- Analyse du contexte et de la problématique\n- Traitement des données adapté au contexte et à la problématique étudiée\n- Exposition des données adaptée au contexte et représentative de la problématique étudiée\n\nIndique en bas : Jeu de données suggéré — [NOM DU DATASET] — [URL data.gouv.fr ou équivalent]"
+      },
+      "c1-1": {
+        "label": "C1.1 — Interpréter des faits en s'appuyant sur une démarche scientifique",
+        "module_full": "MG1 — Construction d'un raisonnement scientifique",
+        "discipline": "Biologie-Écologie + Physique-Chimie",
+        "duree_indicative": "2 séances",
+        "themes": ["Santé", "Alimentation", "Eau", "Énergie", "Biodiversité"],
+        "type_activite": ["découverte expérimentale", "analyse documentaire", "démarche d'investigation"],
+        "outils": ["Classeur / tableur", "Documents scientifiques", "Matériel de laboratoire"],
+        "criteres": [
+          "Appropriation à partir d'un contexte d'un problème ou de questionnements",
+          "Raisonnement scientifique pour proposer une stratégie de résolution",
+          "Réalisation de la démarche retenue",
+          "Exploitation de données et de résultats"
+        ],
+        "systeme": "Agis comme un expert en pédagogie active pour le Bac Pro SAPAT, spécialisé en démarche scientifique et en Sciences et Vie de la Terre / Physique-Chimie appliquée aux enjeux sociétaux.",
+        "prompt": "Public : élèves de Première Bac Pro SAPAT.\n\nConçois une activité pédagogique basée sur la démarche scientifique pour le thème [THEME] en lien avec les enjeux SAPAT.\n\nStructure en 4 temps (les 4 critères d'évaluation C1.1) :\n\n1. 📌 APPROPRIATION DU CONTEXTE ET DU PROBLÈME\nSituation déclenchante réelle (article de presse, donnée chiffrée, fait d'actualité). Questionnement ouvert à résoudre. Extraction d'informations utiles (textes, graphiques, tableaux fournis).\n\n2. 🔬 RAISONNEMENT SCIENTIFIQUE ET STRATÉGIE\nFormulation d'hypothèses. Protocole ou stratégie proposée par les élèves. Identification des paramètres à étudier.\n\n3. ⚗️ RÉALISATION DE LA DÉMARCHE\nActivité concrète : expérience, mesure, calcul ou analyse documentaire. Respect des règles de sécurité. Résultats à consigner.\n\n4. 📈 EXPLOITATION ET INTERPRÉTATION\nAnalyse critique des résultats. Réponse argumentée à la problématique. Communication des résultats (tableau, graphique, schéma).\n\n✅ Critères d'évaluation en tableau à la fin."
+      },
+      "c1-3": {
+        "label": "C1.3 — Exploiter la modélisation d'un phénomène",
+        "module_full": "MG1 — Construction d'un raisonnement scientifique",
+        "discipline": "Mathématiques + Biologie-Écologie",
+        "duree_indicative": "2 séances",
+        "themes": ["Santé", "Alimentation", "Eau", "Énergie", "Biodiversité"],
+        "type_activite": ["modélisation mathématique", "tableur dynamique", "simulation"],
+        "outils": ["Excel / LibreOffice Calc", "Calculatrice graphique", "Python (optionnel)"],
+        "criteres": [
+          "Analyse d'un phénomène dans son contexte",
+          "Utilisation d'un modèle adapté au phénomène étudié",
+          "Validation d'une conjecture ou d'une théorie",
+          "Communication et diffusion de la réponse"
+        ],
+        "systeme": "Agis comme un expert en pédagogie mathématique appliquée pour le Bac Pro SAPAT, spécialisé dans la modélisation de phénomènes biologiques, écologiques et sociaux.",
+        "prompt": "Public : élèves de Première Bac Pro SAPAT.\n\nConçois une activité de modélisation mathématique sur le thème [THEME].\n\nStructure :\n1. 📐 ANALYSE DU PHÉNOMÈNE — contexte réel, données, question à modéliser\n2. 📊 CHOIX ET UTILISATION DU MODÈLE — fonction, suite, tableau Excel, régression\n3. ✔️ VALIDATION — confrontation modèle/réalité, sens critique, ordre de grandeur\n4. 📢 COMMUNICATION — présentation des résultats, schéma bilan, interprétation argumentée\n\n✅ Critères d'évaluation en tableau."
+      }
+    }
+  },
+  "terminale": {
+    "mp8": {
+      "c8-1": {
+        "label": "C8.1 — Adapter le cadre de vie de la personne",
+        "module_full": "MP8 — Accompagnement de la personne au sein de son espace de vie",
+        "discipline": "TIM + ESF (Économie Sociale Familiale)",
+        "duree_indicative": "2-3 séances",
+        "type_activite": ["découverte", "étude de cas", "projet d'aménagement", "mise en situation CCF"],
+        "outils": ["SweetHome3D / SketchUp / my3Dplanner", "Canva", "Catalogue HIPA", "Objets connectés / domotique"],
+        "criteres": [
+          "Établissement d'une relation interpersonnelle de proximité et distanciée avec la personne accompagnée",
+          "Organisation de l'espace de vie en tenant compte des besoins et de la réglementation",
+          "Réalisation des opérations d'entretien en toute sécurité pour la personne et l'accompagnant"
+        ],
+        "systeme": "Agis comme un expert en pédagogie SAPAT, spécialisé dans l'accompagnement de la personne dans son cadre de vie (C8.1 MP8). Tu maîtrises les outils numériques d'aménagement, la réglementation d'accessibilité, la domotique et les objets connectés.",
+        "prompt": "Public : élèves de Terminale Bac Pro SAPAT.\nContexte : Évaluation CCF ECCF3 possible.\n\nThème : [THEME]\n\nConçois une activité pédagogique sur l'adaptation du cadre de vie d'une personne accompagnée.\n\nProfil de la personne à créer : nom fictif, âge, situation (handicap moteur / personne âgée / trouble cognitif), domicile décrit sommairement, besoins spécifiques identifiés.\n\nStructure en 4 temps :\n\n1. 👤 MISE EN SITUATION PROFESSIONNELLE\nPrésentation détaillée de la personne accompagnée et de sa situation. Besoins repérés, difficultés quotidiennes, ressources disponibles. Rôle du SAPAT dans l'accompagnement.\n\n2. 🏠 ANALYSE ET DIAGNOSTIC DE L'ESPACE DE VIE\nDescription de l'espace actuel (plan fourni ou à réaliser). Identification des problèmes d'accessibilité, de sécurité, de confort. Consultation des normes et réglementations applicables.\n\n3. 🔧 PROPOSITION D'AMÉNAGEMENT NUMÉRIQUE\nUtilisation d'un logiciel 2D/3D (SweetHome3D ou équivalent) pour proposer le réaménagement. Choix des équipements et matériels adaptés (dont domotique, objets connectés). Argumentation des choix face à la personne accompagnée.\n\n4. 📋 PRÉSENTATION ET ÉVALUATION\nPrésentation du projet à la personne ou au tuteur professionnel. Prise en compte des retours. Auto-évaluation selon les 3 critères C8.1.\n\n✅ CRITÈRES D'ÉVALUATION en tableau avec indicateurs observables."
+      },
+      "c8-2": {
+        "label": "C8.2 — Effectuer les démarches courantes relatives à la gestion du quotidien",
+        "module_full": "MP8 — Accompagnement de la personne au sein de son espace de vie",
+        "discipline": "TIM + ESF",
+        "duree_indicative": "2 séances",
+        "type_activite": ["découverte", "simulation de démarches", "étude de cas", "mise en situation CCF"],
+        "outils": ["Messagerie électronique", "Agenda numérique", "e-services publics (CAF, impôts, Ameli)", "Doctolib", "Tableur planning"],
+        "criteres": [
+          "Posture d'accompagnement : mobilisation des ressources de la personne",
+          "Mise en place d'une relation en maintenant la distanciation professionnelle requise",
+          "Anticipation et réalisation des démarches courantes"
+        ],
+        "systeme": "Agis comme un expert en pédagogie SAPAT spécialisé dans l'accompagnement numérique et administratif des personnes accompagnées (C8.2 MP8). Tu maîtrises les e-services publics, la communication numérique professionnelle et l'inclusion numérique.",
+        "prompt": "Public : élèves de Terminale Bac Pro SAPAT.\nContexte : Évaluation CCF ECCF4 possible.\n\nThème : [THEME]\n\nConçois une activité pédagogique sur l'accompagnement aux démarches quotidiennes numériques.\n\nProfil fictif de la personne : nom, âge, situation (illectronisme partiel / personne âgée / parent isolé), difficultés numériques identifiées.\n\nStructure en 4 temps :\n\n1. 👤 MISE EN SITUATION\nContexte professionnel réaliste. Présentation de la personne accompagnée et de ses besoins en matière de démarches numériques. Rôle du SAPAT en tant qu'aidant numérique.\n\n2. 📋 IDENTIFICATION DES DÉMARCHES À EFFECTUER\nListe des démarches prioritaires liées au thème [THEME]. Classement par urgence. Vérification des droits et documents nécessaires (liste fournie).\n\n3. 💻 ACCOMPAGNEMENT NUMÉRIQUE PAS À PAS\nGuide détaillé pour accompagner la personne sur 2-3 démarches numériques concrètes (impôts.gouv.fr, CAF, Doctolib, création agenda partagé, etc.). Posture de l'aidant : faire avec, pas pour. Outils de simplification (pictogrammes, guide imprimable).\n\n4. 📊 TRAÇABILITÉ ET SUIVI\nRédaction d'un cahier de liaison numérique ou papier. Planning visuel des démarches restantes. Transmission aux professionnels concernés.\n\n✅ CRITÈRES D'ÉVALUATION en tableau avec indicateurs observables."
+      }
+    },
+    "mg1": {
+      "c1-2": {
+        "label": "C1.2 — Étudier un phénomène social ou professionnel à l'aide de données (Terminale)",
+        "module_full": "MG1 — Construction d'un raisonnement scientifique",
+        "discipline": "TIM + Mathématiques",
+        "duree_indicative": "2 séances",
+        "themes": ["Santé", "Alimentation", "Eau", "Énergie", "Biodiversité"],
+        "type_activite": ["étude complexe autonome", "projet data", "mise en situation CCF"],
+        "outils": ["Excel avancé (TCD, Power BI)", "Google MyMaps / QGIS", "data.gouv.fr", "Tableau Public"],
+        "criteres": [
+          "Analyse du contexte et de la problématique",
+          "Traitement des données adapté au contexte et à la problématique étudiée",
+          "Exposition des données adaptée au contexte et représentative de la problématique étudiée"
+        ],
+        "systeme": "Agis comme un expert en pédagogie active pour la Terminale Bac Pro SAPAT, spécialisé dans l'analyse avancée de données (TCD, graphiques complexes, cartographie SIG). Le niveau est plus exigeant qu'en Première : autonomie totale, traitement approfondi, visualisation professionnelle.",
+        "prompt": "Public : élèves de Terminale Bac Pro SAPAT, niveau avancé, autonomie totale.\n\nThème : [THEME]\n\nRecherche une base de données ouverte pertinente sur data.gouv.fr, INSEE ou agreste.agriculture.gouv.fr.\n\nConçois une activité d'analyse de données complexe en 5 étapes :\n\n1. 📍 MISE EN SITUATION PROFESSIONNELLE AVANCÉE\nContexte SAPAT professionnel ancré en Bretagne. Enjeu réel, décision à prendre à partir de données.\n\n2. ❓ PROBLÉMATIQUE ET DICTIONNAIRE DE DONNÉES\nQuestion centrale précise. Définition des variables utiles. Carte mentale des données nécessaires.\n\n3. 🔧 TRAITEMENT AVANCÉ SOUS EXCEL\nNettoyage des données. Fonctions avancées (SI, SOMME.SI.ENS, NB.SI, TCD). Graphiques croisés dynamiques. Export pour cartographie.\n\n4. 🗺️ CARTOGRAPHIE ET TABLEAU DE BORD\nCarte Google MyMaps ou QGIS. Tableau de bord final (Excel ou Canva). Mise en page professionnelle.\n\n5. 📢 COMMUNICATION DES RÉSULTATS\nPrésentation orale ou diaporama. Recommandations pour une structure SAPAT.\n\n✅ CRITÈRES D'ÉVALUATION avec indicateurs de maîtrise avancée.\n\nJeu de données suggéré en bas avec URL."
+      }
+    }
+  },
+  "seconde": {
+    "eg1": {
+      "eg1-data": {
+        "label": "EG1 — Interprétation de phénomènes à l'aide de données numériques",
+        "module_full": "EG1 — Interprétation de phénomènes variés à l'aide de démarches et d'outils scientifiques",
+        "discipline": "TIM + Sciences",
+        "duree_indicative": "1-2 séances",
+        "themes": ["Santé", "Alimentation", "Eau", "Énergie", "Biodiversité"],
+        "type_activite": ["découverte guidée", "exercice accompagné", "initiation tableur"],
+        "outils": ["LibreOffice Calc / Excel (fonctions de base)", "Grapheur intégré", "Sites de données simples (INSEE, data.gouv.fr)"],
+        "criteres": [
+          "Identification et reformulation du problème à partir du contexte",
+          "Collecte et organisation des données pertinentes",
+          "Représentation graphique adaptée et interprétation des résultats"
+        ],
+        "systeme": "Agis comme un enseignant bienveillant en Seconde Professionnelle (filière SAPAT/SAPVER), spécialisé dans l'initiation aux données numériques. Les élèves débutent : les consignes sont très guidées, le vocabulaire simple, les étapes courtes.",
+        "prompt": "Public : élèves de Seconde Professionnelle SAPAT/SAPVER, débutants en traitement de données.\n\nThème : [THEME]\n\nConçois une activité d'initiation au traitement de données en 4 étapes très guidées :\n\n1. 🌍 CONTEXTE ET QUESTIONNEMENT SIMPLE\nSituation réelle accessible aux jeunes (lien avec leur vie quotidienne ou leur futur métier SAPAT). Une question simple à laquelle les données vont répondre.\n\n2. 📂 DÉCOUVERTE DES DONNÉES\nFichier de données fourni directement (pas de recherche autonome). Description des colonnes. Questions de lecture du tableau (QCM ou vrai/faux).\n\n3. 🖥️ TRAITEMENT SIMPLE DANS EXCEL/CALC\nInstructions pas à pas, captures d'écran possibles. Calculs de base (SOMME, MOYENNE). Création d'un graphique simple (barres ou camembert). Mise en forme basique.\n\n4. 📊 INTERPRÉTATION ET CONCLUSION\nQuestions guidées pour interpréter le graphique. Phrase-bilan à compléter. Lien avec le métier SAPAT.\n\n✅ CRITÈRES D'ÉVALUATION adaptés au niveau Seconde."
+      },
+      "eg1-crcn": {
+        "label": "EG1 — Compétences numériques CRCN et Pix",
+        "module_full": "EG1 — Compétences numériques en Seconde",
+        "discipline": "TIM",
+        "duree_indicative": "1 séance",
+        "type_activite": ["auto-positionnement Pix", "citoyenneté numérique", "création numérique"],
+        "outils": ["Plateforme Pix", "Canva", "Navigateur web"],
+        "criteres": [
+          "Identification des 5 domaines CRCN et de son niveau",
+          "Utilisation responsable des outils numériques",
+          "Production d'un contenu numérique adapté"
+        ],
+        "systeme": "Agis comme un enseignant TIM en Seconde Professionnelle, spécialisé dans les compétences numériques CRCN et la préparation à Pix.",
+        "prompt": "Public : élèves de Seconde Professionnelle.\n\nThème / focus : [THEME]\n\nConçois une activité autour des compétences numériques CRCN en 3 temps :\n\n1. 🧭 AUTO-POSITIONNEMENT — découverte des 5 domaines CRCN, quiz de positionnement, identification des points forts/faibles\n2. 🛡️ ACTIVITÉ PRATIQUE liée au thème [THEME] (ex: vérifier une information, créer un contenu, gérer sa vie privée en ligne)\n3. 🎯 DÉFI PIX — liste de 3 défis Pix recommandés en lien avec le thème\n\n✅ Critères d'évaluation."
+      }
+    },
+    "eg4": {
+      "eg4-numerique": {
+        "label": "EG4 — Numérique citoyen et communication collaborative",
+        "module_full": "EG4 — L'expérience du vivre et de l'agir ensemble dans le respect de l'autre",
+        "discipline": "TIM + EMC + EPS",
+        "duree_indicative": "1-2 séances (regroupées avec EMC)",
+        "type_activite": ["projet collaboratif numérique", "création de contenu citoyen"],
+        "outils": ["Canva", "Diaporama collaboratif", "Réseaux sociaux (analyse)"],
+        "criteres": [
+          "Engagement dans le projet collectif",
+          "Production numérique adaptée au public et au message",
+          "Respect des règles de communication numérique responsable"
+        ],
+        "systeme": "Agis comme un enseignant TIM en Seconde, spécialisé dans les projets numériques citoyens interdisciplinaires (EG4).",
+        "prompt": "Public : élèves de Seconde Professionnelle — projet interdisciplinaire EG4.\n\nThème : [THEME] (en lien avec la laïcité, le vivre ensemble, ou l'engagement citoyen)\n\nConçois une activité numérique collaborative en 3 temps :\n\n1. 📣 CONTEXTE CITOYEN — ancrage dans l'actualité locale ou nationale, questionnement éthique\n2. 🎨 PRODUCTION NUMÉRIQUE COLLECTIVE — affiche Canva, mini-journal, diaporama ou vidéo courte à créer en groupe\n3. 📡 DIFFUSION ET ÉVALUATION — modalités de partage, critères de communication responsable\n\n✅ Critères d'évaluation."
+      }
+    }
+  },
+  "capa2": {
+    "mp8-tim": {
+      "comm-numerique": {
+        "label": "Communication numérique professionnelle — MP8 TIM",
+        "module_full": "MP8 — Communication et outils numériques en CAPa 2 SAPVER",
+        "discipline": "TIM / ESF",
+        "duree_indicative": "45-60 minutes",
+        "type_activite": ["exercice guidé", "sujet d'entraînement CCF"],
+        "outils": ["Traitement de texte (Word / Writer)", "Messagerie professionnelle", "Tableur simple"],
+        "criteres": [
+          "Utilisation correcte de l'outil numérique demandé",
+          "Respect des consignes et de la mise en forme professionnelle",
+          "Exactitude des données saisies et des calculs effectués",
+          "Rendu dans les délais impartis"
+        ],
+        "systeme": "Agis comme un formateur CAPa SAPVER spécialisé dans les TIM (Technologies de l'Information et des Médias) pour des apprenants de niveau CAPa, souvent peu à l'aise avec les outils numériques. Les activités sont simples, très guidées, concrètes et directement liées aux situations professionnelles du secteur.",
+        "prompt": "Public : apprenants de CAPa 2 SAPVER (niveau CAP).\n\nThème / contexte professionnel : [THEME]\n\nConçois un sujet d'activité numérique de 45 minutes avec :\n\n1. 📋 CONTEXTE PROFESSIONNEL SIMPLE\nSituation réaliste en lien avec le secteur SAPVER (aide à domicile, pépinière, commerce rural, service aux personnes). Rôle clair de l'apprenant.\n\n2. 📝 TÂCHE 1 — COMMUNICATION ÉCRITE\nRédaction d'un email professionnel ou d'un message simple. Consignes très précises (destinataire, objet, formules de politesse, contenu).\n\n3. 📊 TÂCHE 2 — DOCUMENT NUMÉRIQUE\nCréation d'un tableau (devis, planning, liste) ou mise en forme d'un document. Instructions pas à pas.\n\n4. ⏱️ CONSIGNES DE PASSATION\nDurée, documents autorisés ou non, matériel fourni.\n\n✅ CRITÈRES D'ÉVALUATION CCF adaptés au niveau CAPa."
+      }
+    }
+  },
+  "capa1": {
+    "tim-base": {
+      "numerique-decouverte": {
+        "label": "Initiation aux outils numériques — CAPa 1 SAPVER",
+        "module_full": "TIM — Initiation aux outils numériques pour les services aux personnes",
+        "discipline": "TIM",
+        "duree_indicative": "1 séance",
+        "type_activite": ["découverte", "exercice très guidé"],
+        "outils": ["Traitement de texte", "Navigation web de base", "Messagerie sécurisée"],
+        "criteres": [
+          "Utilisation de base de l'interface du logiciel",
+          "Réalisation de la tâche demandée",
+          "Respect des consignes"
+        ],
+        "systeme": "Agis comme un formateur bienveillant pour CAPa 1 SAPVER, niveau débutant complet. Les activités sont très courtes, très guidées, avec des captures d'écran suggérées et des étapes numérotées.",
+        "prompt": "Public : apprenants de CAPa 1 SAPVER, débutants complets.\n\nThème : [THEME]\n\nConçois une activité numérique de découverte très guidée (30-45 minutes) :\n\n1. 🌟 CONTEXTE RASSURANT — situation familière, lien direct avec le quotidien ou le stage\n2. 🖥️ DÉCOUVERTE GUIDÉE — 5 étapes maximum, chaque étape clairement numérotée avec captures d'écran suggérées\n3. ✍️ PRODUCTION SIMPLE — un document à créer ou une tâche à réaliser\n4. ✅ VÉRIFICATION — liste de contrôle simple pour que l'apprenant vérifie lui-même son travail"
+      }
+    }
+  },
+  "3a": {
+    "eg1-3e": {
+      "crcn-3e": {
+        "label": "EG1 — Compétences numériques CRCN (3e POP)",
+        "module_full": "EG1 — Compétences numériques au collège agricole",
+        "discipline": "TIM",
+        "duree_indicative": "1 séance",
+        "type_activite": ["découverte CRCN", "projet numérique", "citoyenneté numérique"],
+        "outils": ["Pix", "Canva", "Google Slides", "Navigateur"],
+        "criteres": [
+          "Connaissance des 5 domaines CRCN",
+          "Pratique responsable des outils numériques",
+          "Réalisation d'une production numérique simple"
+        ],
+        "systeme": "Agis comme un enseignant TIM bienveillant pour des élèves de 3ème dans un lycée agricole. Les activités sont courtes, engageantes, avec des défis numériques accessibles.",
+        "prompt": "Public : élèves de 3ème POP (prépa orientation professionnelle) au lycée agricole.\n\nThème : [THEME]\n\nConçois une activité numérique engageante de 1h :\n\n1. 🎯 DÉFI D'ENTRÉE — question ou quiz rapide sur le numérique (5 min)\n2. 🌐 EXPLORATION NUMÉRIQUE — activité guidée en lien avec le thème [THEME] et le lycée agricole\n3. 🎨 CRÉATION — petit projet numérique (affiche Canva, quiz Pix, présentation)\n4. 🗣️ PARTAGE — présentation rapide en classe (2 min par groupe)\n\n✅ Critères d'évaluation adaptés au niveau 3ème."
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "classes": {
+    "terminale": {
+      "label": "Terminale SAPAT",
+      "diplome": "Baccalauréat Professionnel SAPAT",
+      "couleur": "#2D6A4F",
+      "modules": {
+        "mg1": {
+          "label": "MG1 — Raisonnement scientifique",
+          "capacites": ["c1-1", "c1-2", "c1-3"]
+        },
+        "mp8": {
+          "label": "MP8 — Accompagnement de la personne",
+          "capacites": ["c8-1", "c8-2"]
+        }
+      }
+    },
+    "premiere": {
+      "label": "Première SAPAT",
+      "diplome": "Baccalauréat Professionnel SAPAT",
+      "couleur": "#40916C",
+      "modules": {
+        "mg1": {
+          "label": "MG1 — Raisonnement scientifique",
+          "capacites": ["c1-1", "c1-2", "c1-3"]
+        }
+      }
+    },
+    "seconde": {
+      "label": "Seconde SAPAT",
+      "diplome": "Baccalauréat Professionnel SAPAT",
+      "couleur": "#52B788",
+      "modules": {
+        "eg1": {
+          "label": "EG1 — Démarches et outils scientifiques",
+          "capacites": ["eg1-data", "eg1-crcn"]
+        },
+        "eg4": {
+          "label": "EG4 — Vivre et agir ensemble",
+          "capacites": ["eg4-numerique"]
+        }
+      }
+    },
+    "capa2": {
+      "label": "CAPa 2 SAPVER",
+      "diplome": "Certificat d'Aptitude Professionnelle agricole SAPVER",
+      "couleur": "#B7472A",
+      "modules": {
+        "mp8-tim": {
+          "label": "MP8 TIM — Communication numérique",
+          "capacites": ["comm-numerique"]
+        }
+      }
+    },
+    "capa1": {
+      "label": "CAPa 1 SAPVER",
+      "diplome": "Certificat d'Aptitude Professionnelle agricole SAPVER",
+      "couleur": "#E76F51",
+      "modules": {
+        "tim-base": {
+          "label": "TIM — Initiation numérique",
+          "capacites": ["numerique-decouverte"]
+        }
+      }
+    },
+    "3a": {
+      "label": "3ème A (3e POP)",
+      "diplome": "Prépa Orientation Professionnelle — Collège agricole",
+      "couleur": "#457B9D",
+      "modules": {
+        "eg1-3e": {
+          "label": "EG1 — Compétences numériques",
+          "capacites": ["crcn-3e"]
+        }
+      }
+    }
+  },
+  "themes_mg1": [
+    { "id": "sante", "label": "Santé", "emoji": "🏥", "exemples_bretagne": ["qualité de l'air en Bretagne (indice ATMO)", "déserts médicaux en Côtes-d'Armor", "obésité et activité physique dans les zones rurales"] },
+    { "id": "alimentation", "label": "Alimentation", "emoji": "🌾", "exemples_bretagne": ["circuits courts en Bretagne", "agriculture biologique dans le Morbihan", "accès aux produits frais en zone rurale"] },
+    { "id": "eau", "label": "Eau", "emoji": "💧", "exemples_bretagne": ["qualité des eaux côtières bretonnes", "nitrates dans les rivières bretonnes", "algues vertes en baie de Saint-Brieuc"] },
+    { "id": "energie", "label": "Énergie", "emoji": "⚡", "exemples_bretagne": ["éoliennes en Bretagne", "précarité énergétique dans les Côtes-d'Armor", "consommation électrique des ménages bretons"] },
+    { "id": "biodiversite", "label": "Biodiversité", "emoji": "🌿", "exemples_bretagne": ["zones Natura 2000 en Bretagne", "espèces invasives sur le littoral breton", "pollinisateurs et agriculture bretonne"] }
+  ],
+  "territoires": [
+    "Bretagne (région)",
+    "Côtes-d'Armor (22)",
+    "Finistère (29)",
+    "Ille-et-Vilaine (35)",
+    "Morbihan (56)",
+    "Loudéac et son territoire",
+    "Pays du Centre Bretagne"
+  ],
+  "sources_donnees": [
+    { "nom": "data.gouv.fr", "url": "https://www.data.gouv.fr/fr/", "description": "Portail national des données ouvertes" },
+    { "nom": "data.bretagne.bzh", "url": "https://data.bretagne.bzh/pages/home-page/", "description": "Open data de la Région Bretagne" },
+    { "nom": "INSEE", "url": "https://www.insee.fr/fr/accueil", "description": "Statistiques nationales" },
+    { "nom": "AGRESTE", "url": "https://agreste.agriculture.gouv.fr/agreste-web/", "description": "Statistiques agricoles" },
+    { "nom": "ATMO Bretagne", "url": "https://www.airbreizh.asso.fr/", "description": "Qualité de l'air en Bretagne" }
+  ]
+}
