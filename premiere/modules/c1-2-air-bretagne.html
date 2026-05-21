@@ -3,183 +3,642 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C1.2 - Qualité de l'air en Bretagne</title>
-  <link rel="stylesheet" href="../../assets/css/design-system.css">
+  <title>Activité MG1 - C1.2 | Qualité de l'air et santé | Bac Pro SAPAT</title>
   <style>
-    .activity-layout {
-      display: grid;
-      gap: 22px;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Calibri, Georgia, 'Times New Roman', serif;
+      font-size: 12pt;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #fff;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 18mm 18mm 20mm 18mm;
     }
 
-    .activity-card {
-      padding: 24px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--paper);
-      box-shadow: var(--shadow);
+    header {
+      border-bottom: 3px solid #1a4a7a;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
     }
 
-    .activity-card h2,
-    .activity-card h3 {
-      margin: 0 0 12px;
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
     }
 
-    .activity-card p,
-    .activity-card li {
-      color: var(--muted);
+    .header-identite {
+      font-size: 9pt;
+      color: #555;
+      line-height: 1.5;
     }
 
-    .activity-card p {
-      margin-top: 0;
+    .header-identite strong {
+      display: block;
+      font-size: 10pt;
+      color: #1a4a7a;
+      margin-bottom: 2px;
     }
 
-    .activity-card ol,
-    .activity-card ul {
-      margin: 0;
-      padding-left: 22px;
+    .header-badge {
+      background: #1a4a7a;
+      color: white;
+      font-size: 9pt;
+      padding: 4px 10px;
+      border-radius: 3px;
+      white-space: nowrap;
+      align-self: flex-start;
     }
 
-    .activity-card li + li {
-      margin-top: 8px;
-    }
-
-    .criteria-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-    }
-
-    .level-scale {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 8px;
+    h1.titre-activite {
+      font-family: Calibri, Georgia, serif;
+      font-size: 17pt;
+      font-weight: bold;
+      color: #1a1a1a;
       margin-top: 12px;
+      margin-bottom: 4px;
+      line-height: 1.3;
     }
 
-    .level-scale span {
+    .sous-titre {
+      font-size: 10pt;
+      color: #555;
+      font-style: italic;
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-titre {
+      font-family: Calibri, Georgia, serif;
+      font-size: 12pt;
+      font-weight: bold;
+      color: white;
+      background: #1a4a7a;
+      padding: 5px 12px;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .section-titre.gris { background: #5a5a5a; }
+    .section-titre.bleu-clair { background: #2e6da8; }
+
+    p { margin-bottom: 8px; }
+    ul, ol { margin-left: 20px; margin-bottom: 8px; }
+    li { margin-bottom: 3px; }
+
+    .download-banner {
+      background: #e8f0fa;
+      border: 2px solid #1a4a7a;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 10pt;
+    }
+
+    .download-banner .banner-title {
+      font-weight: bold;
+      color: #1a4a7a;
+      font-size: 10.5pt;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .download-banner .dl-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .dl-btn {
+      display: inline-block;
+      background: #1a4a7a;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 9pt;
+      font-weight: bold;
+      letter-spacing: 0.3px;
+    }
+
+    .dl-btn.csv { background: #2e7d32; }
+
+    .bloc-source {
+      background: #f0f4fa;
+      border-left: 4px solid #1a4a7a;
+      padding: 8px 12px;
+      font-size: 10pt;
+      margin-bottom: 10px;
+    }
+
+    .bloc-source a { color: #1a4a7a; word-break: break-all; }
+
+    .bloom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .bloom-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #f5f8ff;
+      border: 1px solid #c5d5ec;
+      padding: 6px 8px;
+      font-size: 10pt;
+    }
+
+    .bloom-tag {
+      background: #1a4a7a;
+      color: white;
+      font-size: 7.5pt;
+      font-weight: bold;
+      padding: 2px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .bloom-tag.n2 { background: #2a6a9a; }
+    .bloom-tag.n3 { background: #1a7a5a; }
+    .bloom-tag.n4 { background: #7a5a1a; }
+    .bloom-tag.n5 { background: #7a1a3a; }
+
+    .mise-en-situation {
+      background: #fafbff;
+      border: 1px solid #c5d5ec;
+      padding: 12px 14px;
+      font-size: 11pt;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    .problematique {
+      background: #e8f0fa;
+      border: 2px solid #1a4a7a;
+      padding: 12px 16px;
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.5;
+      margin: 6px 0;
+    }
+
+    .critere-bloc { margin-bottom: 18px; }
+
+    .critere-label {
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #1a4a7a;
+      border-bottom: 2px solid #1a4a7a;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+    }
+
+    .critere-taches {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .critere-taches li {
+      margin-bottom: 6px;
+      font-size: 11pt;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .critere-taches li .num {
+      position: absolute;
+      left: 0;
+      top: 1px;
+      background: #1a4a7a;
+      color: white;
+      font-size: 8.5pt;
+      font-weight: bold;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .astuce {
+      background: #fff8e1;
+      border-left: 3px solid #f9a825;
+      padding: 5px 10px;
+      font-size: 9.5pt;
+      font-style: italic;
+      margin-top: 4px;
+      margin-bottom: 8px;
+      color: #5a4000;
+    }
+
+    .focus-excel {
+      background: #f0fff0;
+      border-left: 3px solid #2e7d32;
+      padding: 6px 10px;
+      font-size: 9.5pt;
+      margin: 6px 0;
+      color: #1b4f1e;
+    }
+
+    .focus-excel code {
+      font-family: 'Courier New', monospace;
+      background: #dcedc8;
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-size: 9pt;
+    }
+
+    .production-bloc {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .production-item {
+      flex: 1 1 140px;
+      background: #f0f4fa;
+      border: 1px solid #c5d5ec;
       padding: 8px 10px;
-      border-radius: 8px;
-      background: var(--cream);
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 10.5pt;
+    }
+
+    .production-item strong {
+      display: block;
+      color: #1a4a7a;
+      margin-bottom: 4px;
+      font-size: 10pt;
+    }
+
+    table.grille {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+      margin-top: 6px;
+    }
+
+    table.grille thead tr { background: #1a4a7a; color: white; }
+    table.grille th {
+      padding: 7px 8px;
+      text-align: left;
+      font-weight: bold;
+      border: 1px solid #1a4a7a;
+      font-size: 9pt;
+    }
+
+    table.grille td {
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      vertical-align: top;
+    }
+
+    table.grille tbody tr:nth-child(even) { background: #f0f4fa; }
+
+    .niveau-header {
+      text-align: center;
+      font-size: 8.5pt;
+    }
+
+    .niveaux {
+      display: flex;
+      justify-content: space-around;
+      gap: 4px;
+    }
+
+    .niv {
+      text-align: center;
+      font-size: 8pt;
+      color: #444;
+      flex: 1;
+    }
+
+    .niv span {
+      display: block;
+      font-weight: bold;
+      font-size: 11pt;
+      color: #1a4a7a;
+    }
+
+    .niv-desc {
+      font-size: 7.5pt;
+      color: #666;
+      font-style: italic;
+    }
+
+    table.grille .indicateurs li {
+      margin-bottom: 2px;
+      font-size: 9pt;
+    }
+
+    .c12-bandeau {
+      background: #f0f4fa;
+      border: 1px solid #c5d5ec;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      font-size: 10pt;
+    }
+
+    .c12-bandeau .c12-label {
+      font-weight: bold;
+      color: #1a4a7a;
+      font-size: 10.5pt;
+    }
+
+    footer {
+      margin-top: 30px;
+      border-top: 1px solid #ccc;
+      padding-top: 8px;
+      font-size: 8.5pt;
+      color: #888;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    @media print {
+      body { padding: 15mm; }
+      .section { page-break-inside: avoid; }
+      header { page-break-after: avoid; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="header-inner">
-      <a href="c1-2.html" class="back-link">C1.2</a>
-      <div class="header-divider"></div>
-      <span class="logo-badge">XG</span>
-      <span class="logo-text">Première SAPAT - MG1</span>
+    <div class="header-top">
+      <div class="header-identite">
+        <strong>Lycée Xavier Grall - Loudéac</strong>
+        Bac Pro SAPAT - 1ère | Module MG1 | Capacité C1.2<br>
+        Durée estimée : 2 séances de 55 min (ou 1 bloc de 2h)
+      </div>
+      <div class="header-badge">TIM x Mathématiques</div>
     </div>
+    <h1 class="titre-activite">L'air que l'on respire nuit-il à notre santé ?</h1>
+    <p class="sous-titre">Analyse de la qualité de l'air en Bretagne à partir de l'indice ATMO - données ouvertes Atmo France</p>
   </header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <p class="hero-eyebrow">Bac Pro SAPAT - Première | TIM x Mathématiques</p>
-      <h1>L'air que l'on respire nuit-il à notre santé ?</h1>
-      <p>Analyse de la qualité de l'air en Bretagne à partir de l'indice ATMO et de données ouvertes Atmo France.</p>
-      <div class="hero-meta">
-        <span class="hero-chip">MG1</span>
-        <span class="hero-chip">C1.2</span>
-        <span class="hero-chip">2 séances de 55 min</span>
-        <span class="hero-chip">Coefficient 0,5</span>
+  <div class="section">
+    <div class="section-titre gris">Capacité évaluée &amp; données</div>
+
+    <div class="c12-bandeau">
+      <span class="c12-label">C1.2 - </span>Étudier un phénomène social ou professionnel à l'aide de données notamment en nombre.
+      <span style="float:right; font-size:9pt; color:#888;">Coefficient : <strong>0,5</strong></span>
+    </div>
+
+    <div class="download-banner">
+      <div class="banner-title">Jeu de données officiel - à télécharger avant de commencer</div>
+      <strong>Indice ATMO quotidien par commune</strong> - Atmo France / data.gouv.fr<br>
+      <em>Producteur :</em> Fédération Atmo France &nbsp;|&nbsp; <em>Licence :</em> ODbL (Open Data Commons)<br>
+      <em>Contenu :</em> Indice de qualité de l'air quotidien (1 = excellent -> 10 = très mauvais), polluants NO2, PM10, O3, PM2,5 - toutes communes de France<br>
+      <div class="dl-links">
+        <a class="dl-btn" href="https://www.data.gouv.fr/fr/datasets/indice-de-la-qualite-de-lair-quotidien-par-commune/" target="_blank" rel="noreferrer">Page data.gouv.fr</a>
+        <a class="dl-btn csv" href="https://files.data.gouv.fr/atmo/indice-atmo/ind_atmo_commune_annuel_2023.csv" target="_blank" rel="noreferrer">CSV Annuel 2023</a>
+      </div>
+      <div style="font-size:9pt; color:#555; margin-top:6px;">
+        Attention : le fichier complet contient plusieurs millions de lignes. <strong>Votre professeur vous fournira un extrait filtré sur la Bretagne (région 53) prêt à l'emploi sous Excel.</strong>
       </div>
     </div>
-  </section>
+  </div>
 
-  <main class="activity-layout">
-    <section class="activity-card">
-      <h2>Capacité évaluée et données</h2>
-      <p><strong>C1.2 :</strong> étudier un phénomène social ou professionnel à l'aide de données notamment en nombre.</p>
-      <p><strong>Jeu de données officiel :</strong> indice ATMO quotidien par commune, produit par la Fédération Atmo France, licence ODbL.</p>
-      <div class="button-row">
-        <a class="btn" href="https://www.data.gouv.fr/fr/datasets/indice-de-la-qualite-de-lair-quotidien-par-commune/" target="_blank" rel="noreferrer">Page data.gouv.fr</a>
+  <div class="section">
+    <div class="section-titre">Objectifs pédagogiques <span style="font-size:9pt; font-weight:normal; margin-left:8px;">(Taxonomie de Bloom)</span></div>
+    <div class="bloom-grid">
+      <div class="bloom-item">
+        <span class="bloom-tag">N1 - Se souvenir</span>
+        <span>Identifier les polluants atmosphériques et leurs effets sur la santé (NO2, PM10, O3, PM2,5)</span>
       </div>
-      <p>Le fichier complet contient plusieurs millions de lignes. Le professeur fournit un extrait filtré sur la Bretagne, région 53, prêt à l'emploi sous Excel.</p>
-    </section>
-
-    <section class="activity-card">
-      <h2>Objectifs pédagogiques</h2>
-      <div class="criteria-grid">
-        <article><h3>N1 - Se souvenir</h3><p>Identifier les polluants atmosphériques et leurs effets sur la santé : NO2, PM10, O3, PM2,5.</p></article>
-        <article><h3>N2 - Comprendre</h3><p>Interpréter l'indice ATMO et ses seuils réglementaires dans un contexte territorial.</p></article>
-        <article><h3>N3 - Appliquer</h3><p>Utiliser les fonctions Excel MOYENNE.SI, NB.SI.ENS et les tableaux croisés dynamiques.</p></article>
-        <article><h3>N4 - Analyser</h3><p>Comparer la qualité de l'air entre communes et identifier les zones les plus exposées.</p></article>
-        <article><h3>N5 - Évaluer</h3><p>Formuler une recommandation argumentée à destination d'une collectivité locale.</p></article>
+      <div class="bloom-item">
+        <span class="bloom-tag n2">N2 - Comprendre</span>
+        <span>Interpréter l'indice ATMO et ses seuils réglementaires dans un contexte territorial</span>
       </div>
-    </section>
-
-    <section class="activity-card">
-      <h2>Mise en situation</h2>
-      <p>Vous venez d'être embauché(e) comme chargé(e) de mission Santé-Environnement au sein du Conseil départemental des Côtes-d'Armor. Votre responsable vous confie une mission urgente : préparer un rapport de diagnostic sur la qualité de l'air dans les communes bretonnes pour alimenter le futur Plan Régional Santé-Environnement.</p>
-      <p>Grâce au réseau Air Breizh, des données sont collectées quotidiennement et publiées en open data. Votre mission consiste à analyser les données 2023, identifier les communes les plus touchées par la pollution, puis produire une carte et une synthèse à destination des élus.</p>
-    </section>
-
-    <section class="activity-card">
-      <h2>Problématique</h2>
-      <p><strong>Quelles communes bretonnes ont connu la qualité de l'air la plus dégradée en 2023, et quels polluants en sont principalement responsables ?</strong></p>
-    </section>
-
-    <section class="activity-card">
-      <h2>Travail à faire</h2>
-      <h3>Critère 1 - Analyser le contexte et la problématique</h3>
-      <ol>
-        <li>Ouvrir le fichier Excel fourni et repérer les colonnes : commune, code INSEE, date, indice ATMO, polluant dominant, valeur qualitative.</li>
-        <li>Lire la légende de l'indice ATMO et expliquer dans la synthèse ce que signifient les niveaux 1 et 8, ainsi que les polluants mesurés.</li>
-        <li>Filtrer les données pour conserver 5 communes des Côtes-d'Armor, puis sauvegarder le fichier de travail.</li>
-      </ol>
-      <p><strong>Indice ATMO :</strong> 1-2 bon, 3-4 moyen, 5-6 dégradé, 7-8 mauvais, 9-10 très mauvais.</p>
-
-      <h3>Critère 2 - Traiter les données</h3>
-      <ol start="4">
-        <li>Calculer pour chaque commune la moyenne annuelle de l'indice ATMO avec <strong>MOYENNE.SI</strong>.</li>
-        <li>Compter le nombre de jours où l'indice ATMO est supérieur ou égal à 5 avec <strong>NB.SI.ENS</strong>.</li>
-        <li>Créer un tableau croisé dynamique : communes en lignes, polluant dominant en colonnes, date en valeurs comptées.</li>
-        <li>Appliquer une mise en forme conditionnelle : vert si inférieur ou égal à 4, orange entre 5 et 6, rouge si supérieur ou égal à 7.</li>
-      </ol>
-
-      <h3>Critère 3 - Exposer les données</h3>
-      <ol start="8">
-        <li>Créer un graphique en barres comparant l'indice ATMO moyen annuel des communes.</li>
-        <li>Cartographier les 5 communes sur Google MyMaps avec des marqueurs colorés et une description pour chaque commune.</li>
-        <li>Rédiger une synthèse de 12 à 15 lignes répondant à la problématique et proposant une recommandation aux élus.</li>
-      </ol>
-    </section>
-
-    <section class="activity-card">
-      <h2>Production finale attendue</h2>
-      <div class="criteria-grid">
-        <article><h3>Fichier Excel</h3><p>Données filtrées, tableau récapitulatif, formules, TCD, mise en forme conditionnelle et graphique.</p></article>
-        <article><h3>Carte MyMaps</h3><p>5 communes bretonnes, marqueurs colorés, légende, titre et description de chaque point.</p></article>
-        <article><h3>Synthèse écrite</h3><p>12 à 15 lignes, réponse argumentée à la problématique et recommandation destinée aux élus.</p></article>
+      <div class="bloom-item">
+        <span class="bloom-tag n3">N3 - Appliquer</span>
+        <span>Utiliser les fonctions Excel (MOYENNE.SI, NB.SI, TCD) pour traiter des données environnementales</span>
       </div>
-    </section>
-
-    <section class="activity-card">
-      <h2>Grille d'évaluation C1.2</h2>
-      <div class="criteria-grid">
-        <article>
-          <h3>1 - Analyse du contexte</h3>
-          <p>Données pertinentes, colonnes utiles repérées, indice ATMO défini, territoire et destinataire clairement identifiés.</p>
-          <div class="level-scale"><span>-- Non identifié</span><span>- Partiel</span><span>+ Correct</span><span>++ Complet</span></div>
-        </article>
-        <article>
-          <h3>2 - Traitement des données</h3>
-          <p>MOYENNE.SI, NB.SI.ENS, TCD, mise en forme conditionnelle et résultats vérifiables.</p>
-          <div class="level-scale"><span>-- Aucun</span><span>- 1 à 2 éléments</span><span>+ Avec erreurs</span><span>++ Exact</span></div>
-        </article>
-        <article>
-          <h3>3 - Exposition des données</h3>
-          <p>Graphique adapté, carte lisible, synthèse argumentée et production soignée pour un public professionnel.</p>
-          <div class="level-scale"><span>-- Aucune</span><span>- Partielle</span><span>+ Incomplète</span><span>++ Soignée</span></div>
-        </article>
+      <div class="bloom-item">
+        <span class="bloom-tag n4">N4 - Analyser</span>
+        <span>Comparer la qualité de l'air entre communes et identifier les zones les plus exposées</span>
       </div>
-    </section>
-  </main>
+      <div class="bloom-item">
+        <span class="bloom-tag n5">N5 - Évaluer</span>
+        <span>Formuler une recommandation argumentée destinée à une collectivité locale à partir de l'analyse des données</span>
+      </div>
+    </div>
+  </div>
 
-  <footer>Lycée Xavier Grall - Loudéac | Bac Pro SAPAT - Première | MG1 / C1.2 | Données Atmo France / data.gouv.fr - ODbL</footer>
+  <div class="section">
+    <div class="section-titre">A - Mise en situation</div>
+    <div class="mise-en-situation">
+      <p>
+        Vous venez d'être embauché(e) comme <strong>chargé(e) de mission Santé-Environnement</strong> au sein du
+        <strong>Conseil départemental des Côtes-d'Armor</strong>. Votre responsable vous confie une mission urgente :
+        préparer un rapport de diagnostic sur la qualité de l'air dans les communes bretonnes pour alimenter le
+        futur <em>Plan Régional Santé-Environnement (PRSE 4)</em>.
+      </p>
+      <p>
+        La pollution atmosphérique est reconnue comme un enjeu majeur de santé publique. Chaque année en France,
+        elle est responsable de dizaines de milliers de décès prématurés et de nombreuses hospitalisations, notamment
+        pour des maladies respiratoires et cardiovasculaires. Les populations les plus vulnérables - enfants, personnes âgées,
+        asthmatiques - sont particulièrement exposées.
+      </p>
+      <p>
+        Grâce au réseau de surveillance <strong>Air Breizh</strong>, des données sont collectées quotidiennement dans les communes
+        de la région et publiées en open data sur <strong>data.gouv.fr</strong> sous forme d'un indice ATMO allant de 1
+        (très bon) à 10 (très mauvais). Votre mission : analyser ces données pour 2023, identifier les communes les plus
+        touchées par la pollution et produire une carte et une synthèse à destination des élus.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-titre">B - Problématique</div>
+    <div class="problematique">
+      « Quelles communes bretonnes ont connu la qualité de l'air la plus dégradée en 2023,<br>
+      et quels polluants en sont principalement responsables ? »
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-titre">C - Travail à faire</div>
+
+    <div class="critere-bloc">
+      <div class="critere-label">Critère 1 - Analyser le contexte et la problématique</div>
+      <ul class="critere-taches">
+        <li><span class="num">1</span>Ouvrir le fichier Excel fourni par votre professeur. Repérer les colonnes disponibles : commune, code INSEE, date, indice ATMO, polluant dominant, valeur qualitative.</li>
+        <li><span class="num">2</span>Lire la légende de l'indice ATMO et répondre dans votre synthèse : qu'est-ce qu'un indice de 1 ? de 8 ? Quels polluants sont mesurés ?</li>
+      </ul>
+
+      <div class="astuce">
+        <strong>Indice ATMO :</strong>
+        1-2 = Bon | 3-4 = Moyen | 5-6 = Dégradé | 7-8 = Mauvais | 9-10 = Très mauvais.
+        Les principaux polluants : NO2 (dioxyde d'azote, lié au trafic), PM10 et PM2,5 (particules fines, chauffage/industrie), O3 (ozone, réaction UV + polluants).
+      </div>
+
+      <ul class="critere-taches">
+        <li><span class="num">3</span>Filtrer les données pour ne conserver que les lignes concernant <strong>5 communes au choix</strong> dans les Côtes-d'Armor : Loudéac, Saint-Brieuc, Dinan, Lannion, Guingamp par exemple. Supprimer les colonnes non utiles à l'analyse. Sauvegarder votre fichier de travail.</li>
+      </ul>
+    </div>
+
+    <div class="critere-bloc">
+      <div class="critere-label">Critère 2 - Traiter les données</div>
+      <ul class="critere-taches">
+        <li><span class="num">4</span>Calculer pour chaque commune sélectionnée la <strong>moyenne annuelle de l'indice ATMO</strong>.</li>
+      </ul>
+
+      <div class="focus-excel">
+        <strong>Formule à utiliser :</strong> <code>=MOYENNE.SI(plage_commune;"Loudéac";plage_indice)</code><br>
+        Répéter pour chaque commune. Placer les résultats dans un tableau récapitulatif.
+      </div>
+
+      <ul class="critere-taches">
+        <li><span class="num">5</span>Compter le nombre de jours où l'indice ATMO est supérieur ou égal à 5 pour chaque commune.</li>
+      </ul>
+
+      <div class="focus-excel">
+        <strong>Formule à utiliser :</strong> <code>=NB.SI.ENS(plage_commune;"Loudéac";plage_indice;">="&amp;5)</code>
+      </div>
+
+      <ul class="critere-taches">
+        <li><span class="num">6</span>Créer un <strong>Tableau Croisé Dynamique (TCD)</strong> pour croiser : communes (lignes) x polluant dominant (colonnes) x nombre de jours (valeurs).</li>
+      </ul>
+
+      <div class="astuce">
+        <strong>Comment créer un TCD :</strong> sélectionner toutes les données -> Insertion -> Tableau croisé dynamique -> Nouvelle feuille. Glisser « commune » dans Lignes, « polluant_dominant » dans Colonnes, « date » dans Valeurs.
+      </div>
+
+      <ul class="critere-taches">
+        <li><span class="num">7</span>Appliquer une <strong>mise en forme conditionnelle</strong> sur la colonne « indice_atmo » : vert si <= 4, orange si entre 5 et 6, rouge si >= 7.</li>
+      </ul>
+    </div>
+
+    <div class="critere-bloc">
+      <div class="critere-label">Critère 3 - Exposer les données</div>
+      <ul class="critere-taches">
+        <li><span class="num">8</span>Créer un <strong>graphique en barres groupées</strong> comparant l'indice ATMO moyen annuel pour chaque commune. Ajouter un titre, des étiquettes d'axes et une ligne de référence à 4.</li>
+        <li><span class="num">9</span><strong>Cartographier</strong> les 5 communes sur Google MyMaps. Pour chaque marqueur, indiquer la commune, l'indice moyen et le polluant principal. Exporter le tableau récapitulatif en CSV et utiliser <a href="https://scuttemery.fr/converter" target="_blank" rel="noreferrer">scuttemery.fr/converter</a> pour générer un fichier KML.</li>
+      </ul>
+
+      <div class="astuce">
+        <strong>Rappel MyMaps :</strong> aller sur mymaps.google.com -> Créer une nouvelle carte -> Importer -> Sélectionner votre fichier KML. Vérifier que les marqueurs apparaissent bien sur la Bretagne.
+      </div>
+
+      <ul class="critere-taches">
+        <li><span class="num">10</span>Rédiger une <strong>synthèse écrite de 12 à 15 lignes</strong> répondant à la problématique. Votre texte doit nommer la commune la plus touchée, citer le ou les polluants dominants, proposer une hypothèse sur l'origine de la pollution et formuler une recommandation concrète à destination des élus.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-titre bleu-clair">D - Production finale attendue</div>
+    <div class="production-bloc">
+      <div class="production-item">
+        <strong>Fichier Excel</strong>
+        Données filtrées + tableau récapitulatif + formules MOYENNE.SI / NB.SI.ENS + TCD + mise en forme conditionnelle + graphique
+      </div>
+      <div class="production-item">
+        <strong>Carte MyMaps</strong>
+        5 communes bretonnes avec marqueurs colorés, légende, titre, description de chaque point
+      </div>
+      <div class="production-item">
+        <strong>Synthèse écrite</strong>
+        12 à 15 lignes - réponse argumentée à la problématique, avec recommandation à destination des élus
+      </div>
+      <div class="production-item">
+        <strong>Destinataire</strong>
+        Conseil départemental des Côtes-d'Armor - Service Santé-Environnement
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-titre gris">E - Grille d'évaluation C1.2</div>
+    <table class="grille">
+      <thead>
+        <tr>
+          <th style="width:26%">Critère</th>
+          <th style="width:44%">Indicateurs observables</th>
+          <th style="width:30%" class="niveau-header">Niveau de maîtrise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1 - Analyse du contexte et de la problématique</strong></td>
+          <td>
+            <ul class="indicateurs">
+              <li>Les données sélectionnées correspondent bien à la problématique.</li>
+              <li>Les colonnes utiles ont été identifiées et les données inutiles supprimées.</li>
+              <li>L'indice ATMO et les polluants sont correctement définis dans la synthèse.</li>
+              <li>Le territoire et le public ciblés sont clairement mentionnés.</li>
+            </ul>
+          </td>
+          <td>
+            <div class="niveaux">
+              <div class="niv"><span>--</span><div class="niv-desc">Contexte non identifié</div></div>
+              <div class="niv"><span>-</span><div class="niv-desc">Partiel ou imprécis</div></div>
+              <div class="niv"><span>+</span><div class="niv-desc">Correct avec lacunes mineures</div></div>
+              <div class="niv"><span>++</span><div class="niv-desc">Complet et pertinent</div></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>2 - Traitement des données adapté</strong></td>
+          <td>
+            <ul class="indicateurs">
+              <li>La fonction MOYENNE.SI est utilisée correctement pour chaque commune.</li>
+              <li>La fonction NB.SI.ENS permet de compter les jours à indice >= 5.</li>
+              <li>Un TCD croisant communes et polluants dominants est construit.</li>
+              <li>La mise en forme conditionnelle est appliquée et cohérente avec les seuils.</li>
+              <li>Les résultats obtenus sont vraisemblables et vérifiables.</li>
+            </ul>
+          </td>
+          <td>
+            <div class="niveaux">
+              <div class="niv"><span>--</span><div class="niv-desc">Aucun traitement réalisé</div></div>
+              <div class="niv"><span>-</span><div class="niv-desc">1 à 2 éléments présents</div></div>
+              <div class="niv"><span>+</span><div class="niv-desc">TCD + formules mais erreurs</div></div>
+              <div class="niv"><span>++</span><div class="niv-desc">Traitement complet et exact</div></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>3 - Exposition des données représentative</strong></td>
+          <td>
+            <ul class="indicateurs">
+              <li>Le graphique en barres est adapté à la comparaison entre communes.</li>
+              <li>La carte MyMaps est lisible : marqueurs colorés, légende, titre, descriptions.</li>
+              <li>La synthèse répond explicitement à la problématique.</li>
+              <li>La production est soignée et destinable à un public professionnel.</li>
+            </ul>
+          </td>
+          <td>
+            <div class="niveaux">
+              <div class="niv"><span>--</span><div class="niv-desc">Aucune exposition</div></div>
+              <div class="niv"><span>-</span><div class="niv-desc">Graphique ou carte seul(e)</div></div>
+              <div class="niv"><span>+</span><div class="niv-desc">Graphique + carte sans synthèse</div></div>
+              <div class="niv"><span>++</span><div class="niv-desc">Ensemble complet et soigné</div></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <span>Lycée Xavier Grall - Loudéac | Bac Pro SAPAT - 1ère | MG1 / C1.2 | Thème : Santé (pollution)</span>
+    <span>Données : Atmo France / data.gouv.fr (ODbL) | Année scolaire 2025-2026</span>
+  </footer>
 </body>
 </html>
